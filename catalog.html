@@ -1,467 +1,783 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Books â€” Bloom Editorial</title>
-  <meta name="description" content="Browse all books published by Bloom Editorial â€” healing, faith, grief, somatic wellness, and perimenopause guides for women.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .catalog-hero { background: var(--green-light); padding: 60px 0 40px; }
-    .catalog-hero h1 { margin-bottom: 12px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog — Bloom Editorial</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ============ HERO ============ */
+
+  .c-hero {
+    padding: clamp(3rem, 6vw, 5rem) 0 clamp(2rem, 3vw, 3rem);
+    text-align: center;
+  }
+  .c-hero .label { color: var(--g1); display: block; margin-bottom: 16px; }
+  .c-hero h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin: 0 0 1rem;
+  }
+  .c-hero h1 em {
+    font-style: normal;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .c-hero p {
+    max-width: 52ch;
+    margin: 0 auto 2.5rem;
+    color: var(--mute);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+  .c-hero .filter-tabs { justify-content: center; }
+
+  /* ============ FILTER BAR (sticky for desktop) ============ */
+
+  .filter-sticky {
+    position: sticky;
+    top: 76px;
+    z-index: 40;
+    background: rgba(242, 243, 247, 0.92);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    padding: 14px 0;
+    margin-bottom: 1rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .filter-sticky-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .filter-sticky .tally {
+    font-size: 12px;
+    color: var(--mute);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .filter-sticky .tally strong {
+    color: var(--ink);
+    font-family: var(--display);
+    font-weight: 700;
+  }
+
+  /* ============ BOOK GRID ============ */
+
+  .books-section { padding: 2rem 0 var(--section); }
+
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  @media (max-width: 980px) { .books-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .books-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; } }
+
+  .b-card {
+    background: var(--card);
+    border-radius: var(--r-card);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+    cursor: pointer;
+  }
+  .b-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+  .b-card.is-hidden { display: none; }
+
+  .b-card .cover {
+    position: relative;
+    height: 200px;
+    background: var(--cover-ink);
+    color: #fff;
+    padding: 1.5rem 1.25rem 1.25rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .b-card .cover::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 8px;
+    background: var(--accent);
+  }
+  .b-card .cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(255,255,255,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .b-card .cover .pubmark {
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    position: relative;
+    z-index: 1;
+  }
+  .b-card .cover h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    text-wrap: balance;
+    color: #fff;
+  }
+  .b-card .cover .a-cap {
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    position: relative;
+    z-index: 1;
+  }
+
+  .b-card .body {
+    padding: 1.25rem 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+  .b-card .body .author-cap {
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .b-card .body h4 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--ink);
+  }
+  .b-card .body .genre-pill {
+    align-self: flex-start;
+  }
+  .b-card .prices {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--mute);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--rule);
+    margin-top: auto;
+  }
+  .b-card .prices .price {
+    color: var(--ink);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-right: 4px;
+  }
+  .b-card .prices .ebook {
+    color: var(--mute);
+    font-size: 12.5px;
+  }
+  .b-card .formats {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .b-card .fmt {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: var(--r-pill);
+    background: var(--rule-soft);
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1;
+  }
+  .b-card .fmt svg { width: 11px; height: 11px; }
+
+  /* accent map */
+  .b-card[data-author="hannah"]  { --accent: var(--hannah); }
+  .b-card[data-author="maya"]    { --accent: var(--maya);   }
+  .b-card[data-author="clara"]   { --accent: var(--clara);  }
+  .b-card[data-author="claire"]  { --accent: var(--claire); }
+
+  /* empty state */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--mute);
+    font-family: var(--display);
+    font-size: 1.25rem;
+    display: none;
+  }
+  .books-grid.is-empty .empty-state { display: block; }
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">Bloom<span>.</span>Editorial</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="catalog.html">Our Books</a></li>
-      <li><a href="index.html#authors">Authors</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="catalog-hero">
-  <div class="container">
-    <span class="section-label">Complete Catalog</span>
-    <h1>Our Books</h1>
-    <p>Every book in the Bloom Editorial family â€” written to meet you exactly where you are.</p>
-  </div>
-</section>
-
-<!-- CATALOG -->
-<section class="catalog-section">
-  <div class="container">
-
-    <!-- FILTERS -->
-    <div class="filter-tabs">
-      <button class="filter-tab active" onclick="filterBooks('all', this)">All Books</button>
-      <button class="filter-tab" onclick="filterBooks('hannah', this)">Hannah Grace</button>
-      <button class="filter-tab" onclick="filterBooks('maya', this)">Maya Chen</button>
-      <button class="filter-tab" onclick="filterBooks('clara', this)">Clara Bennett</button>
-      <button class="filter-tab" onclick="filterBooks('claire', this)">Claire Harmon</button>
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 22 22" fill="none">
+            <path d="M11 1 L13.2 9.8 L22 11 L13.2 12.2 L11 21 L8.8 12.2 L0 11 L8.8 9.8 Z" fill="#7C3AED"/>
+          </svg>
+        </span>
+        <span>Bloom Editorial</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="authors.html">Our Authors</a></li>
+          <li><a href="catalog.html" class="active">Catalog</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn-primary" href="catalog.html" style="padding: 11px 20px;">
+        Explore Books
+        <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
+  </header>
 
-    <!-- BOOKS GRID -->
-    <div class="books-grid" id="booksGrid">
+  <!-- ============ HERO ============ -->
+  <section class="c-hero">
+    <div class="wrap">
+      <span class="label">The Bloom Editorial Catalog</span>
+      <h1>Our <em>Catalog</em></h1>
+      <p>Every title we publish lives at the intersection of lived experience, careful research, and steady, honest prose. Filter by author below — all books available in print, ebook, and audio.</p>
 
-      <!-- HANNAH GRACE -->
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: var(--hannah);">
-          <div class="book-cover-text">A Woman's Guide to Healing Through Scripture</div>
+      <div class="filter-tabs" id="filter-tabs">
+        <input type="radio" name="cf" id="cf-all" checked>
+        <label for="cf-all"><span class="dot" style="background: var(--ink);"></span>All Books</label>
+        <input type="radio" name="cf" id="cf-hannah">
+        <label for="cf-hannah" data-tab="hannah"><span class="dot"></span>Hannah Grace</label>
+        <input type="radio" name="cf" id="cf-maya">
+        <label for="cf-maya" data-tab="maya"><span class="dot"></span>Maya Chen</label>
+        <input type="radio" name="cf" id="cf-clara">
+        <label for="cf-clara" data-tab="clara"><span class="dot"></span>Clara Bennett</label>
+        <input type="radio" name="cf" id="cf-claire">
+        <label for="cf-claire" data-tab="claire"><span class="dot"></span>Claire Harmon</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TALLY BAR ============ -->
+  <section class="filter-sticky">
+    <div class="wrap filter-sticky-inner">
+      <span class="tally">Showing <strong id="tally-shown">18</strong> of <strong>18</strong> titles</span>
+      <span class="tally" id="tally-author">All authors · 4 pen names · 2019—2025</span>
+    </div>
+  </section>
+
+  <!-- ============ BOOK GRID ============ -->
+  <section class="books-section">
+    <div class="wrap">
+      <div class="books-grid" id="grid">
+
+        <!-- ============== HANNAH GRACE (5) ============== -->
+
+        <article class="b-card" data-author="hannah">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 014</span>
+            <h3>A Woman's Guide to Healing Through Scripture</h3>
+            <span class="a-cap">Hannah Grace</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Hannah Grace</span>
+            <h4>A Woman's Guide to Healing Through Scripture</h4>
+            <span class="genre-pill" data-author="hannah">Bible Study</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$19.99</span>Paperback</span>
+              <span class="ebook">$9.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="hannah">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 002</span>
+            <h3>A Woman's Daily Prayer Journal</h3>
+            <span class="a-cap">Hannah Grace</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Hannah Grace</span>
+            <h4>A Woman's Daily Prayer Journal</h4>
+            <span class="genre-pill" data-author="hannah">Bible Study</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$10.99</span>Paperback</span>
+              <span class="ebook">$6.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="hannah">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 005</span>
+            <h3>Write the Word</h3>
+            <span class="a-cap">Hannah Grace</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Hannah Grace</span>
+            <h4>Write the Word</h4>
+            <span class="genre-pill" data-author="hannah">Bible Study</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$9.99</span>Paperback</span>
+              <span class="ebook">$5.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="hannah">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 011</span>
+            <h3>Anxiety and Faith</h3>
+            <span class="a-cap">Hannah Grace</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Hannah Grace</span>
+            <h4>Anxiety and Faith</h4>
+            <span class="genre-pill" data-author="hannah">Bible Study</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$19.99</span>Paperback</span>
+              <span class="ebook">$9.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="hannah">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 013</span>
+            <h3>Psalms for the Brokenhearted</h3>
+            <span class="a-cap">Hannah Grace</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Hannah Grace</span>
+            <h4>Psalms for the Brokenhearted</h4>
+            <span class="genre-pill" data-author="hannah">Bible Study</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$17.99</span>Paperback</span>
+              <span class="ebook">$8.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============== MAYA CHEN (5) ============== -->
+
+        <article class="b-card" data-author="maya">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 015</span>
+            <h3>The Vagus Nerve Workbook</h3>
+            <span class="a-cap">Maya Chen</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Maya Chen</span>
+            <h4>The Vagus Nerve Workbook</h4>
+            <span class="genre-pill" data-author="maya">Somatic Healing</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$17.99</span>Paperback</span>
+              <span class="ebook">$9.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="maya">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 006</span>
+            <h3>My Nervous System Tracker</h3>
+            <span class="a-cap">Maya Chen</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Maya Chen</span>
+            <h4>My Nervous System Tracker</h4>
+            <span class="genre-pill" data-author="maya">Somatic Healing</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$9.99</span>Paperback</span>
+              <span class="ebook">$5.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="maya">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 009</span>
+            <h3>Somatic Healing for Trauma</h3>
+            <span class="a-cap">Maya Chen</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Maya Chen</span>
+            <h4>Somatic Healing for Trauma</h4>
+            <span class="genre-pill" data-author="maya">Somatic Healing</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$17.99</span>Paperback</span>
+              <span class="ebook">$9.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="maya">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 017</span>
+            <h3>The Nervous System Reset</h3>
+            <span class="a-cap">Maya Chen</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Maya Chen</span>
+            <h4>The Nervous System Reset</h4>
+            <span class="genre-pill" data-author="maya">Somatic Healing</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$17.99</span>Paperback</span>
+              <span class="ebook">$9.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="maya">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 012</span>
+            <h3>Polyvagal Exercises for Beginners</h3>
+            <span class="a-cap">Maya Chen</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Maya Chen</span>
+            <h4>Polyvagal Exercises for Beginners</h4>
+            <span class="genre-pill" data-author="maya">Somatic Healing</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$16.99</span>Paperback</span>
+              <span class="ebook">$8.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============== CLARA BENNETT (4) ============== -->
+
+        <article class="b-card" data-author="clara">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 008</span>
+            <h3>Grief Journal for the Loss of a Mother</h3>
+            <span class="a-cap">Clara Bennett</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Clara Bennett</span>
+            <h4>Grief Journal for the Loss of a Mother</h4>
+            <span class="genre-pill" data-author="clara">Grief &amp; Loss</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$13.99</span>Paperback</span>
+              <span class="ebook">$7.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="clara">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 010</span>
+            <h3>Mom's Kitchen: A Recipe Memory Book</h3>
+            <span class="a-cap">Clara Bennett</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Clara Bennett</span>
+            <h4>Mom's Kitchen: A Recipe Memory Book</h4>
+            <span class="genre-pill" data-author="clara">Grief &amp; Loss</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$14.99</span>Paperback</span>
+              <span class="ebook">$8.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="clara">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 016</span>
+            <h3>My Mother My Heart</h3>
+            <span class="a-cap">Clara Bennett</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Clara Bennett</span>
+            <h4>My Mother My Heart</h4>
+            <span class="genre-pill" data-author="clara">Grief &amp; Loss</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$15.99</span>Paperback</span>
+              <span class="ebook">$8.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="clara">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 018</span>
+            <h3>Dear Mom: Letters I Never Got to Send</h3>
+            <span class="a-cap">Clara Bennett</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Clara Bennett</span>
+            <h4>Dear Mom: Letters I Never Got to Send</h4>
+            <span class="genre-pill" data-author="clara">Grief &amp; Loss</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$16.99</span>Paperback</span>
+              <span class="ebook">$8.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============== CLAIRE HARMON (4) ============== -->
+
+        <article class="b-card" data-author="claire">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 019</span>
+            <h3>The Perimenopause Anxiety Workbook</h3>
+            <span class="a-cap">Claire Harmon</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Claire Harmon</span>
+            <h4>The Perimenopause Anxiety Workbook</h4>
+            <span class="genre-pill" data-author="claire">Perimenopause</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$21.99</span>Paperback</span>
+              <span class="ebook">$10.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="claire">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 007</span>
+            <h3>My Perimenopause Journal</h3>
+            <span class="a-cap">Claire Harmon</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Claire Harmon</span>
+            <h4>My Perimenopause Journal</h4>
+            <span class="genre-pill" data-author="claire">Perimenopause</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$12.99</span>Paperback</span>
+              <span class="ebook">$6.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="claire">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 020</span>
+            <h3>Sleep Through Perimenopause</h3>
+            <span class="a-cap">Claire Harmon</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Claire Harmon</span>
+            <h4>Sleep Through Perimenopause</h4>
+            <span class="genre-pill" data-author="claire">Perimenopause</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Audio</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$19.99</span>Paperback</span>
+              <span class="ebook">$9.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="b-card" data-author="claire">
+          <div class="cover">
+            <span class="pubmark">Bloom &middot; № 022</span>
+            <h3>The HRT Decision Workbook</h3>
+            <span class="a-cap">Claire Harmon</span>
+          </div>
+          <div class="body">
+            <span class="author-cap">Claire Harmon</span>
+            <h4>The HRT Decision Workbook</h4>
+            <span class="genre-pill" data-author="claire">Perimenopause</span>
+            <div class="formats">
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Print</span>
+              <span class="fmt"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Ebook</span>
+            </div>
+            <div class="prices">
+              <span><span class="price">$21.99</span>Paperback</span>
+              <span class="ebook">$10.99 Ebook</span>
+            </div>
+          </div>
+        </article>
+
+        <div class="empty-state">No titles in this filter — yet.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-inner">
+        <div class="foot-brand">
+          <span class="brand">
+            <span class="brand-mark"><svg viewBox="0 0 22 22" fill="none"><path d="M11 1 L13.2 9.8 L22 11 L13.2 12.2 L11 21 L8.8 12.2 L0 11 L8.8 9.8 Z" fill="#7C3AED"/></svg></span>
+            <span>Bloom Editorial</span>
+          </span>
+          <p>An independent press for women. Beautifully written books across healing, faith, grief, and wellness.</p>
         </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>A Woman's Guide to Healing Through Scripture</h4>
-          <div class="price">$19.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        <div>
+          <h4>Sitemap</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="authors.html">Authors</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Press</h4>
+          <ul>
+            <li><a href="#">Submissions</a></li>
+            <li><a href="#">Rights</a></li>
+            <li><a href="#">Permissions</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">hello@bloom.press</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Instagram</a></li>
+          </ul>
         </div>
       </div>
-
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: var(--hannah); opacity: 0.85;">
-          <div class="book-cover-text">A Woman's Daily Prayer Journal</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>A Woman's Daily Prayer Journal</h4>
-          <div class="price">$10.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
+      <div class="foot-bottom">
+        <span>© 2025 Bloom Editorial</span>
+        <span>Est. 2019 · Pacific Northwest</span>
       </div>
+    </div>
+  </footer>
 
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: #a8623e;">
-          <div class="book-cover-text">Write the Word: A Scripture Writing Journal</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>Write the Word: A Scripture Writing Journal</h4>
-          <div class="price">$9.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: #b86a42;">
-          <div class="book-cover-text">Anxiety and Faith: A Bible Study for Women</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>Anxiety and Faith: A Bible Study for Women</h4>
-          <div class="price">$19.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: #c47850;">
-          <div class="book-cover-text">Psalms for the Brokenhearted</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>Psalms for the Brokenhearted</h4>
-          <div class="price">$17.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: #9e5a34;">
-          <div class="book-cover-text">A Bible Study for Women in Grief</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>A Bible Study for Women in Grief</h4>
-          <div class="price">$17.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: #bb7248;">
-          <div class="book-cover-text">Proverbs for Women: A Practical Bible Study</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>Proverbs for Women: A Practical Bible Study</h4>
-          <div class="price">$19.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="hannah">
-        <div class="book-cover" style="background: #8a4e2c;">
-          <div class="book-cover-text">Walking Through Fire: A Complete Women's Bible Study</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
-          <h4>Walking Through Fire: A Complete Women's Bible Study</h4>
-          <div class="price">$24.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <!-- MAYA CHEN -->
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: var(--maya);">
-          <div class="book-cover-text">The Vagus Nerve Workbook</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>The Vagus Nerve Workbook</h4>
-          <div class="price">$17.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: #4a7aa3;">
-          <div class="book-cover-text">My Nervous System Tracker</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>My Nervous System Tracker</h4>
-          <div class="price">$9.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: #3d6e96;">
-          <div class="book-cover-text">The Vagus Nerve Practice Journal</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>The Vagus Nerve Practice Journal</h4>
-          <div class="price">$11.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: #507fa8;">
-          <div class="book-cover-text">Somatic Healing for Trauma</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>Somatic Healing for Trauma</h4>
-          <div class="price">$17.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: #446d94;">
-          <div class="book-cover-text">The Nervous System Reset</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>The Nervous System Reset</h4>
-          <div class="price">$17.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: #5888b5;">
-          <div class="book-cover-text">Polyvagal Exercises for Beginners</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>Polyvagal Exercises for Beginners</h4>
-          <div class="price">$16.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: #3a608a;">
-          <div class="book-cover-text">Somatic Healing for Women</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>Somatic Healing for Women</h4>
-          <div class="price">$17.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="maya">
-        <div class="book-cover" style="background: #2d5070;">
-          <div class="book-cover-text">Heal Your Nervous System: The Complete Guide</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
-          <h4>Heal Your Nervous System: The Complete Guide</h4>
-          <div class="price">$22.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <!-- CLARA BENNETT -->
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: var(--clara);">
-          <div class="book-cover-text">Grief Journal for the Loss of a Mother</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>Grief Journal for the Loss of a Mother</h4>
-          <div class="price">$13.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: #b87288;">
-          <div class="book-cover-text">Mom's Kitchen: A Recipe Memory Book</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>Mom's Kitchen: A Recipe Memory Book</h4>
-          <div class="price">$14.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: #c98098;">
-          <div class="book-cover-text">My Mother, My Heart: A Memory Keepsake Book</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>My Mother, My Heart: A Memory Keepsake Book</h4>
-          <div class="price">$15.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: #aa6880;">
-          <div class="book-cover-text">A Mother's Legacy: 100 Questions</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>A Mother's Legacy: 100 Questions to Capture Everything She Was</h4>
-          <div class="price">$13.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: #c07890;">
-          <div class="book-cover-text">Dear Mom: Letters I Never Got to Send</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>Dear Mom: Letters I Never Got to Send</h4>
-          <div class="price">$16.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: #b06a82;">
-          <div class="book-cover-text">A Year Without Mom: 52 Weekly Letters</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>A Year Without Mom: 52 Weekly Letters</h4>
-          <div class="price">$16.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: #985e76;">
-          <div class="book-cover-text">Healing After Losing Your Mother: A Guided Workbook</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>Healing After Losing Your Mother: A Guided Workbook</h4>
-          <div class="price">$21.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="clara">
-        <div class="book-cover" style="background: #7a4a60;">
-          <div class="book-cover-text">The Grief Companion: 365 Daily Reflections</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
-          <h4>The Grief Companion: 365 Daily Reflections</h4>
-          <div class="price">$24.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <!-- CLAIRE HARMON -->
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: var(--claire);">
-          <div class="book-cover-text">The Perimenopause Anxiety Workbook</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>The Perimenopause Anxiety Workbook</h4>
-          <div class="price">$21.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: #886878;">
-          <div class="book-cover-text">My Perimenopause Journal</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>My Perimenopause Journal</h4>
-          <div class="price">$12.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: #7a5e6e;">
-          <div class="book-cover-text">Perimenopause Daily Symptom Tracker</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>Perimenopause Daily Symptom Tracker</h4>
-          <div class="price">$11.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: #927082;">
-          <div class="book-cover-text">The Perimenopause Brain Fog Workbook</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>The Perimenopause Brain Fog Workbook</h4>
-          <div class="price">$19.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: #85687a;">
-          <div class="book-cover-text">Sleep Through Perimenopause</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>Sleep Through Perimenopause</h4>
-          <div class="price">$19.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: #6e5464;">
-          <div class="book-cover-text">The HRT Decision Workbook</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>The HRT Decision Workbook</h4>
-          <div class="price">$21.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: #9a7888;">
-          <div class="book-cover-text">Perimenopause Mood &amp; Rage Workbook</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>Perimenopause Mood &amp; Rage Workbook</h4>
-          <div class="price">$19.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-      <div class="book-card" data-author="claire">
-        <div class="book-cover" style="background: #5a4050;">
-          <div class="book-cover-text">The Complete Perimenopause Workbook</div>
-        </div>
-        <div class="book-info">
-          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
-          <h4>The Complete Perimenopause Workbook</h4>
-          <div class="price">$26.99</div>
-          <a href="#" class="btn btn-amazon">View on Amazon</a>
-        </div>
-      </div>
-
-    </div><!-- /books-grid -->
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-logo">Bloom<span>.</span>Editorial</div>
-    <p style="margin-top:8px;">&copy; 2025 Bloom Editorial. All rights reserved.</p>
-  </div>
-</footer>
-
-<script>
-function filterBooks(author, btn) {
-  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.book-card').forEach(card => {
-    card.style.display = (author === 'all' || card.dataset.author === author) ? 'block' : 'none';
-  });
-}
-</script>
+  <!-- Filter (small JS) -->
+  <script>
+    (function () {
+      var grid = document.getElementById('grid');
+      var cards = grid.querySelectorAll('.b-card');
+      var tallyShown = document.getElementById('tally-shown');
+      var tallyAuthor = document.getElementById('tally-author');
+      var authorLabels = {
+        all: 'All authors · 4 pen names · 2019—2025',
+        hannah: 'Hannah Grace · Bible Study for Women',
+        maya: 'Maya Chen · Somatic Healing & Nervous System',
+        clara: 'Clara Bennett · Grief & Loss',
+        claire: 'Claire Harmon · Perimenopause & Women\u2019s Health'
+      };
+      document.querySelectorAll('#filter-tabs input').forEach(function (r) {
+        r.addEventListener('change', function () {
+          var t = r.id.replace('cf-', ''), n = 0;
+          cards.forEach(function (c) {
+            var match = (t === 'all' || c.dataset.author === t);
+            c.classList.toggle('is-hidden', !match);
+            if (match) n++;
+          });
+          grid.classList.toggle('is-empty', n === 0);
+          tallyShown.textContent = n;
+          tallyAuthor.textContent = authorLabels[t];
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>

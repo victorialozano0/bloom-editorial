@@ -1,113 +1,976 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bloom Editorial â€” Where Healing Blooms</title>
-  <meta name="description" content="Bloom Editorial publishes books that help women heal, grow, and flourish. Home of Hannah Grace, Maya Chen, Clara Bennett, and Claire Harmon.">
-  <meta property="og:title" content="Bloom Editorial â€” Where Healing Blooms">
-  <meta property="og:description" content="Books that help women heal, grow, and flourish.">
-  <meta property="og:type" content="website">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom Editorial — Books that help women heal & grow</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ============ HERO ============ */
+
+  .hero {
+    position: relative;
+    padding: clamp(2rem, 5vw, 5rem) 0 clamp(4rem, 7vw, 7rem);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 6px;
+    border-radius: var(--r-pill);
+    background: var(--card);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .hero-badge .icon {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--g1);
+    display: grid;
+    place-items: center;
+    color: var(--g1);
+  }
+  .hero-badge .icon svg { width: 10px; height: 10px; }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(2.5rem, 5.6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 1.25rem;
+  }
+  .hero h1 .l2 {
+    display: block;
+  }
+  .hero p.lede {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--mute);
+    max-width: 48ch;
+    margin: 0 0 2rem;
+  }
+  .hero .actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* hero-right stack */
+  .hero-right {
+    position: relative;
+    aspect-ratio: 1 / 1.05;
+    max-width: 540px;
+    width: 100%;
+    margin-left: auto;
+  }
+  .hero-right .dot-grid {
+    width: 168px;
+    height: 168px;
+    top: -8px;
+    right: 4%;
+    z-index: 0;
+  }
+  .hero-right .wire-circle {
+    width: 320px;
+    height: 320px;
+    right: -80px;
+    bottom: -30px;
+    z-index: 0;
+  }
+  .hero-right .hero-card {
+    position: absolute;
+    background: var(--card);
+    border-radius: var(--r-card);
+    box-shadow: var(--shadow-lg);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+    z-index: 2;
+  }
+  .hero-right .hero-card .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 4px 0;
+  }
+  .hero-right .hero-card .meta .price {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .hero-right .card-lg {
+    width: 60%;
+    top: 2%;
+    left: 0;
+    transform: rotate(-3deg);
+  }
+  .hero-right .card-sm {
+    width: 46%;
+    bottom: 2%;
+    right: -2%;
+    transform: rotate(4deg);
+    z-index: 3;
+  }
+  .hero-right .card-lg:hover { transform: rotate(-1deg) translateY(-4px); }
+  .hero-right .card-sm:hover { transform: rotate(2deg) translateY(-4px); }
+
+  /* For the hero large card: pin title to upper portion so it's not covered
+     by the overlapping smaller card. */
+  .hero-right .card-lg .bcover { justify-content: flex-start; gap: 0.65rem; padding-top: 1.5rem; padding-bottom: 2.75rem; }
+  .hero-right .card-lg .bcover .b-author { position: absolute; bottom: 1.25rem; left: 1.5rem; }
+
+  /* stat ribbon */
+  .hero-stat {
+    position: absolute;
+    bottom: 14%;
+    left: 8%;
+    background: var(--grad);
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: var(--r-card);
+    box-shadow: 0 16px 32px -16px rgba(124, 58, 237, 0.6);
+    z-index: 4;
+    transform: rotate(-2deg);
+  }
+  .hero-stat .num {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  .hero-stat .label {
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-right { max-width: 480px; margin: 0 auto; }
+    .hero-stat { left: 4%; bottom: 12%; }
+  }
+
+  /* ============ SECTION HEAD ============ */
+
+  .sec-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+  .sec-head .lhs { max-width: 60ch; }
+  .sec-head .label { display: block; margin-bottom: 14px; }
+  .sec-head h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(1.85rem, 3.4vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+  .sec-head h2 em {
+    font-style: normal;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .sec-head .sub {
+    margin-top: 0.75rem;
+    color: var(--mute);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  /* ============ WHAT WE PUBLISH ============ */
+
+  .genres {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+  @media (max-width: 960px) { .genres { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .genres { grid-template-columns: 1fr; } }
+
+  .genre-card {
+    background: var(--card);
+    border-radius: var(--r-card);
+    box-shadow: var(--shadow);
+    padding: 1.75rem;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .genre-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+  .genre-card .icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+  }
+  .genre-card .icon svg { width: 24px; height: 24px; }
+  .genre-card h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .genre-card p {
+    color: var(--mute);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+  }
+  .genre-card .footer {
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--rule);
+  }
+  .genre-card[data-author="hannah"]  { --accent: var(--hannah); }
+  .genre-card[data-author="maya"]    { --accent: var(--maya);   }
+  .genre-card[data-author="clara"]   { --accent: var(--clara);  }
+  .genre-card[data-author="claire"]  { --accent: var(--claire); }
+
+  /* ============ ABOUT ============ */
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+  @media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; } }
+
+  .about-left {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-width: 520px;
+  }
+  .about-left .dot-grid {
+    width: 144px;
+    height: 144px;
+    left: -16px;
+    top: -16px;
+    z-index: 0;
+  }
+  .about-left .hero-card {
+    position: absolute;
+    background: var(--card);
+    border-radius: var(--r-card);
+    box-shadow: var(--shadow-lg);
+    padding: 1.25rem;
+    z-index: 2;
+  }
+  .about-left .card-a { width: 60%; top: 6%; left: 8%; transform: rotate(-5deg); }
+  .about-left .card-b { width: 55%; bottom: 4%; right: 4%; transform: rotate(4deg); z-index: 3; }
+  .about-left .stat-badge {
+    position: absolute;
+    background: var(--grad);
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 16px 28px -14px rgba(124, 58, 237, 0.6);
+    z-index: 4;
+    right: 14%;
+    top: 38%;
+    transform: rotate(3deg);
+  }
+  .about-left .stat-badge .num {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  .about-left .stat-badge .label {
+    color: rgba(255,255,255,0.85);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .about-right .label { color: var(--g1); display: block; margin-bottom: 12px; }
+  .about-right h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2rem, 3.8vw, 2.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 1.5rem;
+    max-width: 18ch;
+  }
+  .about-right h2 em {
+    font-style: normal;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .about-right p {
+    color: var(--mute);
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0 0 2rem;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 2rem;
+  }
+  .about-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+  }
+  .about-stat .ic {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--g1) 12%, transparent);
+    color: var(--g1);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+  }
+  .about-stat .ic svg { width: 18px; height: 18px; }
+  .about-stat .num {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  .about-stat .lbl {
+    font-size: 12px;
+    color: var(--mute);
+    margin-top: 4px;
+  }
+  .about-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ============ OUR AUTHORS ROW ============ */
+
+  .authors-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+  @media (max-width: 720px) { .authors-row { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+
+  .author-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 200ms ease;
+  }
+  .author-badge:hover { transform: scale(1.05); }
+  .author-badge .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    color: var(--accent);
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+    transition: transform 200ms ease;
+  }
+  .author-badge:hover .avatar { transform: scale(1.1); }
+  .author-badge .name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+  .author-badge .genre {
+    font-size: 12px;
+    color: var(--mute);
+  }
+  .author-badge[data-author="hannah"]  { --accent: var(--hannah); }
+  .author-badge[data-author="maya"]    { --accent: var(--maya);   }
+  .author-badge[data-author="clara"]   { --accent: var(--clara);  }
+  .author-badge[data-author="claire"]  { --accent: var(--claire); }
+
+  /* ============ FEATURED BOOKS ============ */
+
+  .featured-tabs {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+  @media (max-width: 920px) { .book-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .book-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; } }
+
+  .book-card {
+    background: var(--card);
+    border-radius: var(--r-card);
+    box-shadow: var(--shadow);
+    padding: 1rem 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    cursor: pointer;
+  }
+  .book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+  .book-card.is-hidden { display: none; }
+
+  .book-card-body {
+    padding: 4px 6px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .book-card-body .row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .book-card-body h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--ink);
+  }
+  .book-card-body .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+    margin-top: 4px;
+    font-size: 12.5px;
+    color: var(--mute);
+  }
+  .book-card-body .bottom .price {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .book-card-body .bottom .audio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--g1);
+    font-weight: 500;
+  }
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <div class="nav-logo">Bloom<span>.</span>Editorial</div>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="catalog.html">Our Books</a></li>
-      <li><a href="authors/hannah-grace.html">Authors</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-badge">Independent Publisher</div>
-    <h1>Where <span>Healing</span> Blooms.</h1>
-    <p>We publish books that help women navigate hard seasons â€” with honesty, warmth, and the tools that actually work.</p>
-    <div class="hero-buttons">
-      <a href="catalog.html" class="btn btn-primary">Browse Our Books</a>
-      <a href="#authors" class="btn btn-outline">Meet Our Authors</a>
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 22 22" fill="none">
+            <path d="M11 1 L13.2 9.8 L22 11 L13.2 12.2 L11 21 L8.8 12.2 L0 11 L8.8 9.8 Z" fill="#7C3AED"/>
+          </svg>
+        </span>
+        <span>Bloom Editorial</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="authors.html">Our Authors</a></li>
+          <li><a href="catalog.html">Catalog</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn-primary" href="catalog.html" style="padding: 11px 20px;">
+        Explore Books
+        <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
-  </div>
-</section>
+  </header>
 
-<!-- ABOUT -->
-<section class="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-visual">&#x1F338;</div>
-      <div class="about-text">
-        <span class="section-label">About Bloom Editorial</span>
-        <h2>Books written for exactly the moment you're in.</h2>
-        <p>We believe every woman deserves a book that sees her. Not a general self-help guide. Not another checklist. A real, honest companion for the specific season she's walking through â€” whether that's grief, anxiety, faith, or the unexpected changes of midlife.</p>
-        <p>Our authors write from lived experience, grounded in research, with the warmth of a trusted friend. Every book we publish goes through the same question: <em>would this have helped me when I needed it most?</em></p>
-        <p>Bloom Editorial is an independent publisher dedicated to women's emotional, spiritual, and physical wellbeing.</p>
-        <a href="catalog.html" class="btn btn-primary" style="margin-top:8px;">See All Books</a>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badge">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 10 10"><path d="M2 1 L8 5 L2 9 Z" fill="currentColor"/></svg>
+            </span>
+            An independent press
+          </div>
+
+          <h1>
+            Books that help women
+            <span class="l2 gradient-text">heal &amp; grow.</span>
+          </h1>
+
+          <p class="lede">We publish beautifully written books across healing, faith, grief, and wellness — one transformative read at a time.</p>
+
+          <div class="actions">
+            <a class="btn btn-primary" href="catalog.html">
+              Browse Catalog
+              <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn-outline" href="authors.html">Meet Our Authors</a>
+          </div>
+        </div>
+
+        <!-- hero right: rotated cards stack -->
+        <div class="hero-right">
+          <div class="dot-grid" aria-hidden="true"></div>
+          <div class="wire-circle" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="49" fill="none" stroke="#E5E7EB" stroke-width="0.4"/></svg>
+          </div>
+
+          <div class="hero-card card-lg">
+            <div class="bcover" data-author="hannah" data-size="lg">
+              <span class="b-pubmark">Bloom &middot; № 014</span>
+              <h3 class="b-title">A Woman's Guide to Healing Through Scripture</h3>
+              <span class="b-author">Hannah Grace</span>
+            </div>
+            <div class="meta">
+              <span class="author-tag" data-author="hannah"><span class="dot"></span>Hannah Grace</span>
+              <span class="price">$19.99</span>
+            </div>
+          </div>
+
+          <div class="hero-card card-sm">
+            <div class="bcover" data-author="maya">
+              <span class="b-pubmark">Bloom &middot; № 015</span>
+              <h3 class="b-title">The Vagus Nerve Workbook</h3>
+              <span class="b-author">Maya Chen</span>
+            </div>
+            <div class="meta">
+              <span class="author-tag" data-author="maya"><span class="dot"></span>Maya Chen</span>
+              <span class="price">$17.99</span>
+            </div>
+          </div>
+
+          <div class="hero-stat">
+            <div class="num">32</div>
+            <div class="label">Books Published</div>
+          </div>
+
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- AUTHORS -->
-<section class="authors-section" id="authors">
-  <div class="container">
-    <span class="section-label">Our Authors</span>
-    <h2>Voices you can trust.</h2>
-    <p style="max-width:560px;">Each of our authors brings deep expertise and personal experience to their niche. Together they form the Bloom Editorial family.</p>
-    <div class="authors-grid">
+  <!-- ============ WHAT WE PUBLISH ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="lhs">
+          <span class="label">What we publish</span>
+          <h2>Four genres, four <em>unmistakable voices.</em></h2>
+        </div>
+        <p class="sub" style="max-width: 36ch;">Each of our pen names lives at the intersection of lived experience, careful research, and steady, honest prose.</p>
+      </div>
 
-      <a href="authors/hannah-grace.html" class="author-card">
-        <div class="author-avatar" style="background: var(--hannah);">HG</div>
-        <h3>Hannah Grace</h3>
-        <p class="niche">Bible Study for Women</p>
-        <p class="books-count">8 books published</p>
-      </a>
+      <div class="genres">
+        <article class="genre-card" data-author="hannah">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z M4 17a3 3 0 0 1 3-3h11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </span>
+          <h3>Bible Study</h3>
+          <p>Pastoral, rigorous, never preachy — studies for women walking through hard seasons of faith and life.</p>
+          <span class="footer">Hannah Grace</span>
+        </article>
 
-      <a href="authors/maya-chen.html" class="author-card">
-        <div class="author-avatar" style="background: var(--maya);">MC</div>
-        <h3>Maya Chen</h3>
-        <p class="niche">Somatic Healing &amp; Nervous System</p>
-        <p class="books-count">8 books published</p>
-      </a>
+        <article class="genre-card" data-author="maya">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21c5-5 8-9 8-13a8 8 0 0 0-16 0c0 4 3 8 8 13z M12 12c2 0 4-2 4-4 M12 12c-2 0-4-2-4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <h3>Somatic Healing</h3>
+          <p>Polyvagal practices for the nervous system that learned to brace — gentle, evidence-based, body-first.</p>
+          <span class="footer">Maya Chen</span>
+        </article>
 
-      <a href="authors/clara-bennett.html" class="author-card">
-        <div class="author-avatar" style="background: var(--clara);">CB</div>
-        <h3>Clara Bennett</h3>
-        <p class="niche">Grief &amp; Loss of a Mother</p>
-        <p class="books-count">8 books published</p>
-      </a>
+        <article class="genre-card" data-author="clara">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 20.5 C 6 16 2.5 12.5 2.5 8.5 A 4.5 4.5 0 0 1 12 6 A 4.5 4.5 0 0 1 21.5 8.5 C 21.5 12.5 18 16 12 20.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </span>
+          <h3>Grief &amp; Loss</h3>
+          <p>Quiet companions for daughters, partners, friends — grief not as a stage, but the long shape of love.</p>
+          <span class="footer">Clara Bennett</span>
+        </article>
 
-      <a href="authors/claire-harmon.html" class="author-card">
-        <div class="author-avatar" style="background: var(--claire);">CH</div>
-        <h3>Claire Harmon</h3>
-        <p class="niche">Perimenopause &amp; Women's Health</p>
-        <p class="books-count">8 books published</p>
-      </a>
-
+        <article class="genre-card" data-author="claire">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 L14.4 9.6 L22 10 L15.8 14.4 L18.2 22 L12 17.3 L5.8 22 L8.2 14.4 L2 10 L9.6 9.6 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </span>
+          <h3>Perimenopause</h3>
+          <p>Clinician-informed workbooks for the decade nobody named — practical, plain-language, zero shame.</p>
+          <span class="footer">Claire Harmon</span>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-logo">Bloom<span>.</span>Editorial</div>
-    <p style="margin-top:8px;">&copy; 2025 Bloom Editorial. All rights reserved.</p>
-    <p style="margin-top:12px;">
-      <a href="catalog.html">Books</a> &nbsp;|&nbsp;
-      <a href="authors/hannah-grace.html">Authors</a>
-    </p>
-  </div>
-</footer>
+  <!-- ============ ABOUT ============ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="about-left">
+          <div class="dot-grid" aria-hidden="true"></div>
+
+          <div class="hero-card card-a">
+            <div class="bcover" data-author="clara">
+              <span class="b-pubmark">Bloom &middot; № 008</span>
+              <h3 class="b-title">Grief Journal for the Loss of a Mother</h3>
+              <span class="b-author">Clara Bennett</span>
+            </div>
+          </div>
+
+          <div class="hero-card card-b">
+            <div class="bcover" data-author="claire">
+              <span class="b-pubmark">Bloom &middot; № 019</span>
+              <h3 class="b-title">The Perimenopause Anxiety Workbook</h3>
+              <span class="b-author">Claire Harmon</span>
+            </div>
+          </div>
+
+          <div class="stat-badge">
+            <div class="num">32</div>
+            <div class="label">Books published</div>
+          </div>
+        </div>
+
+        <div class="about-right">
+          <span class="label">About us</span>
+          <h2>Stories written for the women who <em>need them most.</em></h2>
+          <p>We publish a handful of books each year — each one held to a single standard: would we hand it to someone we love? Our authors write from lived experience, backed by research, with the kind of warmth and honesty that turns a reader into a friend.</p>
+
+          <div class="about-stats">
+            <div class="about-stat">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              <div>
+                <div class="num">4</div>
+                <div class="lbl">Pen names</div>
+              </div>
+            </div>
+            <div class="about-stat">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              </span>
+              <div>
+                <div class="num">8</div>
+                <div class="lbl">Books per author</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-actions">
+            <a class="btn btn-primary" href="authors.html">
+              Browse Authors
+              <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn-outline" href="catalog.html">View Catalog</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUR AUTHORS ============ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="lhs">
+          <span class="label">Our authors</span>
+          <h2>Four women writing the books they <em>couldn't find on the shelf.</em></h2>
+        </div>
+        <a class="btn btn-ghost" href="authors.html">
+          See all authors
+          <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="authors-row">
+        <a class="author-badge" data-author="hannah" href="authors.html">
+          <span class="avatar">HG</span>
+          <span class="name">Hannah Grace</span>
+          <span class="genre">Bible Study</span>
+        </a>
+        <a class="author-badge" data-author="maya" href="authors.html">
+          <span class="avatar">MC</span>
+          <span class="name">Maya Chen</span>
+          <span class="genre">Somatic Healing</span>
+        </a>
+        <a class="author-badge" data-author="clara" href="authors.html">
+          <span class="avatar">CB</span>
+          <span class="name">Clara Bennett</span>
+          <span class="genre">Grief &amp; Loss</span>
+        </a>
+        <a class="author-badge" data-author="claire" href="authors.html">
+          <span class="avatar">CH</span>
+          <span class="name">Claire Harmon</span>
+          <span class="genre">Perimenopause</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED BOOKS ============ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="lhs">
+          <span class="label">Featured books</span>
+          <h2>Recent <em>titles from the list.</em></h2>
+          <p class="sub" style="margin-top: 0.75rem;">A small selection from our 2024–2025 releases. Filter by author below.</p>
+        </div>
+      </div>
+
+      <div class="filter-tabs featured-tabs">
+        <input type="radio" name="ft" id="ft-all" checked>
+        <label for="ft-all"><span class="dot" style="background: var(--ink);"></span>All</label>
+        <input type="radio" name="ft" id="ft-hannah">
+        <label for="ft-hannah" data-tab="hannah"><span class="dot"></span>Hannah Grace</label>
+        <input type="radio" name="ft" id="ft-maya">
+        <label for="ft-maya" data-tab="maya"><span class="dot"></span>Maya Chen</label>
+        <input type="radio" name="ft" id="ft-clara">
+        <label for="ft-clara" data-tab="clara"><span class="dot"></span>Clara Bennett</label>
+        <input type="radio" name="ft" id="ft-claire">
+        <label for="ft-claire" data-tab="claire"><span class="dot"></span>Claire Harmon</label>
+      </div>
+
+      <div class="book-grid" id="featured-grid">
+
+        <article class="book-card" data-author="hannah">
+          <div class="bcover" data-author="hannah" data-size="strip">
+            <span class="b-pubmark">Bloom &middot; № 014</span>
+            <h3 class="b-title">A Woman's Guide to Healing Through Scripture</h3>
+            <span class="b-author">Hannah Grace</span>
+          </div>
+          <div class="book-card-body">
+            <span class="author-tag" data-author="hannah"><span class="dot"></span>Hannah Grace</span>
+            <h3>A Woman's Guide to Healing Through Scripture</h3>
+            <span class="genre-pill" data-author="hannah">Bible Study</span>
+            <div class="bottom">
+              <span><span class="price">$19.99</span> &middot; Paperback</span>
+              <span class="audio">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                Audiobook ✓
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="book-card" data-author="maya">
+          <div class="bcover" data-author="maya" data-size="strip">
+            <span class="b-pubmark">Bloom &middot; № 015</span>
+            <h3 class="b-title">The Vagus Nerve Workbook</h3>
+            <span class="b-author">Maya Chen</span>
+          </div>
+          <div class="book-card-body">
+            <span class="author-tag" data-author="maya"><span class="dot"></span>Maya Chen</span>
+            <h3>The Vagus Nerve Workbook</h3>
+            <span class="genre-pill" data-author="maya">Somatic Healing</span>
+            <div class="bottom">
+              <span><span class="price">$17.99</span> &middot; Paperback</span>
+              <span class="audio">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                Audiobook ✓
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="book-card" data-author="clara">
+          <div class="bcover" data-author="clara" data-size="strip">
+            <span class="b-pubmark">Bloom &middot; № 008</span>
+            <h3 class="b-title">Grief Journal for the Loss of a Mother</h3>
+            <span class="b-author">Clara Bennett</span>
+          </div>
+          <div class="book-card-body">
+            <span class="author-tag" data-author="clara"><span class="dot"></span>Clara Bennett</span>
+            <h3>Grief Journal for the Loss of a Mother</h3>
+            <span class="genre-pill" data-author="clara">Grief &amp; Loss</span>
+            <div class="bottom">
+              <span><span class="price">$13.99</span> &middot; Paperback</span>
+              <span class="audio">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                Audiobook ✓
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="book-card" data-author="claire">
+          <div class="bcover" data-author="claire" data-size="strip">
+            <span class="b-pubmark">Bloom &middot; № 019</span>
+            <h3 class="b-title">The Perimenopause Anxiety Workbook</h3>
+            <span class="b-author">Claire Harmon</span>
+          </div>
+          <div class="book-card-body">
+            <span class="author-tag" data-author="claire"><span class="dot"></span>Claire Harmon</span>
+            <h3>The Perimenopause Anxiety Workbook</h3>
+            <span class="genre-pill" data-author="claire">Perimenopause</span>
+            <div class="bottom">
+              <span><span class="price">$21.99</span> &middot; Paperback</span>
+              <span class="audio">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                Audiobook ✓
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="book-card" data-author="hannah">
+          <div class="bcover" data-author="hannah" data-size="strip">
+            <span class="b-pubmark">Bloom &middot; № 011</span>
+            <h3 class="b-title">Anxiety and Faith</h3>
+            <span class="b-author">Hannah Grace</span>
+          </div>
+          <div class="book-card-body">
+            <span class="author-tag" data-author="hannah"><span class="dot"></span>Hannah Grace</span>
+            <h3>Anxiety and Faith</h3>
+            <span class="genre-pill" data-author="hannah">Bible Study</span>
+            <div class="bottom">
+              <span><span class="price">$19.99</span> &middot; Paperback</span>
+              <span class="audio">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                Audiobook ✓
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="book-card" data-author="maya">
+          <div class="bcover" data-author="maya" data-size="strip">
+            <span class="b-pubmark">Bloom &middot; № 017</span>
+            <h3 class="b-title">The Nervous System Reset</h3>
+            <span class="b-author">Maya Chen</span>
+          </div>
+          <div class="book-card-body">
+            <span class="author-tag" data-author="maya"><span class="dot"></span>Maya Chen</span>
+            <h3>The Nervous System Reset</h3>
+            <span class="genre-pill" data-author="maya">Somatic Healing</span>
+            <div class="bottom">
+              <span><span class="price">$17.99</span> &middot; Paperback</span>
+              <span class="audio">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                Audiobook ✓
+              </span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-inner">
+        <div class="foot-brand">
+          <span class="brand">
+            <span class="brand-mark"><svg viewBox="0 0 22 22" fill="none"><path d="M11 1 L13.2 9.8 L22 11 L13.2 12.2 L11 21 L8.8 12.2 L0 11 L8.8 9.8 Z" fill="#7C3AED"/></svg></span>
+            <span>Bloom Editorial</span>
+          </span>
+          <p>An independent press for women. Beautifully written books across healing, faith, grief, and wellness.</p>
+        </div>
+        <div>
+          <h4>Sitemap</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="authors.html">Authors</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Press</h4>
+          <ul>
+            <li><a href="#">Submissions</a></li>
+            <li><a href="#">Rights</a></li>
+            <li><a href="#">Permissions</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">hello@bloom.press</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2025 Bloom Editorial</span>
+        <span>Est. 2019 · Pacific Northwest</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Featured filter — small JS -->
+  <script>
+    (function () {
+      var grid = document.getElementById('featured-grid');
+      var cards = grid.querySelectorAll('.book-card');
+      document.querySelectorAll('.featured-tabs input').forEach(function (r) {
+        r.addEventListener('change', function () {
+          var t = r.id.replace('ft-', '');
+          cards.forEach(function (c) {
+            var match = (t === 'all' || c.dataset.author === t);
+            c.classList.toggle('is-hidden', !match);
+          });
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>

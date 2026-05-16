@@ -1,0 +1,567 @@
+/* ============================================================
+   Bloom Editorial — v4 (portfolio / MaxFolio direction)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=Space+Grotesk:wght@300;400;500&display=swap');
+
+:root {
+  /* Surface */
+  --bg:        #F2F3F7;
+  --card:      #FFFFFF;
+  --ink:       #1A1A2E;
+  --ink-2:     #4B5563;
+  --mute:      #6B7280;
+  --rule:      #E5E7EB;
+  --rule-soft: #F3F4F6;
+  --dotgrid:   #D1D5DB;
+
+  /* Brand gradient (purple → indigo) */
+  --g1:        #7C3AED;
+  --g2:        #4F46E5;
+  --grad:      linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+
+  /* Author accents */
+  --hannah:    #C17B5A;
+  --maya:      #5B8DB8;
+  --clara:     #C4889A;
+  --claire:    #9B7B8E;
+
+  /* Cover dark */
+  --cover-ink: #1A1A2E;
+
+  /* Type */
+  --display:   "Archivo", "Helvetica Neue", system-ui, sans-serif;
+  --body:      "Space Grotesk", "Helvetica Neue", system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow:    0 4px 24px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 12px 40px rgba(26, 26, 46, 0.12);
+
+  /* Layout */
+  --container: 1280px;
+  --gutter:    clamp(20px, 4vw, 56px);
+  --section:   clamp(4rem, 8vw, 8rem);
+
+  /* radii */
+  --r-card: 16px;
+  --r-pill: 999px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--bg); }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+button { font: inherit; cursor: pointer; background: none; border: 0; color: inherit; }
+
+::selection { background: var(--g1); color: #fff; }
+
+/* ============================================================
+   Typography
+   ============================================================ */
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.label {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.gradient-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+p { text-wrap: pretty; }
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+
+.wrap {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section { padding: var(--section) 0; }
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(242, 243, 247, 0.82);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 76px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.brand-mark { width: 22px; height: 22px; }
+.brand-mark svg { width: 100%; height: 100%; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+}
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 18px;
+  border-radius: var(--r-pill);
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 200ms ease, background 200ms ease;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active {
+  background: var(--ink);
+  color: #fff;
+}
+
+@media (max-width: 760px) {
+  .nav-links { padding: 4px; gap: 2px; }
+  .nav-links a { padding: 8px 12px; font-size: 12.5px; }
+}
+@media (max-width: 460px) {
+  .nav-inner { height: 64px; }
+  .brand { font-size: 16px; }
+  .nav-links a { padding: 6px 10px; font-size: 12px; }
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease, color 200ms ease, border-color 200ms ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(124, 58, 237, 0.6);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -10px rgba(124, 58, 237, 0.7);
+}
+.btn-outline {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.btn-outline:hover {
+  background: var(--ink);
+  color: #fff;
+}
+.btn-ghost {
+  background: var(--card);
+  border-color: var(--rule);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.btn-ghost:hover {
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+.btn .arrow { transition: transform 200ms ease; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ============================================================
+   Card
+   ============================================================ */
+
+.card {
+  background: var(--card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+
+/* ============================================================
+   Decorative backgrounds
+   ============================================================ */
+
+.dot-grid {
+  background-image: radial-gradient(circle, var(--dotgrid) 1.5px, transparent 2px);
+  background-size: 24px 24px;
+  opacity: 0.6;
+  position: absolute;
+  pointer-events: none;
+}
+
+.wire-circle {
+  position: absolute;
+  pointer-events: none;
+}
+.wire-circle svg { width: 100%; height: 100%; }
+
+/* ============================================================
+   Filter tabs (pills row)
+   ============================================================ */
+
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter-tabs input { position: absolute; opacity: 0; pointer-events: none; }
+.filter-tabs label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 20px;
+  border-radius: var(--r-pill);
+  background: var(--card);
+  border: 1px solid var(--rule);
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  user-select: none;
+  line-height: 1;
+}
+.filter-tabs label .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dot, var(--mute));
+}
+.filter-tabs label[data-tab="hannah"] { --dot: var(--hannah); }
+.filter-tabs label[data-tab="maya"]   { --dot: var(--maya);   }
+.filter-tabs label[data-tab="clara"]  { --dot: var(--clara);  }
+.filter-tabs label[data-tab="claire"] { --dot: var(--claire); }
+
+.filter-tabs label:hover {
+  border-color: transparent;
+  box-shadow: var(--shadow);
+}
+
+/* Active tab → gradient bg, white text */
+.filter-tabs input:checked + label {
+  background: var(--grad);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 8px 20px -8px rgba(124, 58, 237, 0.55);
+}
+.filter-tabs input:checked + label .dot { background: rgba(255, 255, 255, 0.9); }
+
+/* Author-specific tabs: use each author's accent color when active */
+.filter-tabs input:checked + label[data-tab] {
+  background: var(--dot);
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.22);
+}
+
+/* ============================================================
+   Book cover — typeset, dark, accent spine
+   ============================================================ */
+
+.bcover {
+  position: relative;
+  width: 100%;
+  background: var(--cover-ink);
+  color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 1.5rem 1.25rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: var(--display);
+  aspect-ratio: 3 / 4;
+}
+.bcover[data-size="lg"] { aspect-ratio: 3 / 4.2; }
+.bcover[data-size="strip"] { aspect-ratio: auto; height: 200px; }
+.bcover[data-size="strip-sm"] { aspect-ratio: auto; height: 180px; }
+
+.bcover::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 8px;
+  background: var(--accent, var(--hannah));
+}
+.bcover::after {
+  /* subtle radial wash */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(255,255,255,0.06), transparent 60%);
+  pointer-events: none;
+}
+
+.bcover .b-pubmark {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  position: relative;
+  z-index: 1;
+}
+
+.bcover .b-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  text-wrap: balance;
+  color: #fff;
+}
+.bcover[data-size="lg"] .b-title { font-size: 1.6rem; }
+.bcover[data-size="strip"] .b-title,
+.bcover[data-size="strip-sm"] .b-title { font-size: 1.15rem; }
+
+.bcover .b-author {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent, var(--hannah));
+  position: relative;
+  z-index: 1;
+}
+
+/* accent assignments */
+.bcover[data-author="hannah"]  { --accent: var(--hannah); }
+.bcover[data-author="maya"]    { --accent: var(--maya);   }
+.bcover[data-author="clara"]   { --accent: var(--clara);  }
+.bcover[data-author="claire"]  { --accent: var(--claire); }
+
+/* ============================================================
+   Genre pill (accent color at 15%)
+   ============================================================ */
+
+.genre-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--accent, var(--hannah));
+  background: color-mix(in srgb, var(--accent, var(--hannah)) 15%, transparent);
+  line-height: 1;
+  white-space: nowrap;
+}
+.genre-pill[data-author="hannah"]  { --accent: var(--hannah); }
+.genre-pill[data-author="maya"]    { --accent: var(--maya);   }
+.genre-pill[data-author="clara"]   { --accent: var(--clara);  }
+.genre-pill[data-author="claire"]  { --accent: var(--claire); }
+
+/* ============================================================
+   Author dot + name inline
+   ============================================================ */
+
+.author-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--ink);
+}
+.author-tag .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent, var(--hannah));
+}
+.author-tag[data-author="hannah"]  { --accent: var(--hannah); }
+.author-tag[data-author="maya"]    { --accent: var(--maya);   }
+.author-tag[data-author="clara"]   { --accent: var(--clara);  }
+.author-tag[data-author="claire"]  { --accent: var(--claire); }
+
+/* ============================================================
+   Skill / progress bar
+   ============================================================ */
+
+.skill {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.skill .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--ink);
+}
+.skill .head .pct {
+  font-family: var(--display);
+  font-weight: 700;
+  color: var(--accent, var(--hannah));
+}
+.skill .track {
+  height: 6px;
+  background: var(--rule);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.skill .fill {
+  height: 100%;
+  background: var(--accent, var(--hannah));
+  border-radius: var(--r-pill);
+  transition: width 300ms ease;
+}
+.skill[data-author="hannah"]  { --accent: var(--hannah); }
+.skill[data-author="maya"]    { --accent: var(--maya);   }
+.skill[data-author="clara"]   { --accent: var(--clara);  }
+.skill[data-author="claire"]  { --accent: var(--claire); }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.foot {
+  padding: 4rem 0 2.5rem;
+  border-top: 1px solid var(--rule);
+}
+.foot-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+.foot-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 32ch;
+}
+.foot-brand .brand { margin-bottom: 4px; }
+.foot-brand p {
+  font-size: 14px;
+  color: var(--mute);
+  line-height: 1.55;
+  margin: 0;
+}
+.foot h4 {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin: 0 0 14px;
+}
+.foot ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.foot li a {
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+.foot li a:hover { color: var(--g1); }
+
+.foot-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--mute);
+}
+
+@media (max-width: 860px) {
+  .foot-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem 2rem; }
+  .foot-brand { grid-column: 1 / -1; }
+}
