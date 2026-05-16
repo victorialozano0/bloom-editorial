@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Books — Bloom Editorial</title>
+  <meta name="description" content="Browse all books published by Bloom Editorial — healing, faith, grief, somatic wellness, and perimenopause guides for women.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .catalog-hero { background: var(--green-light); padding: 60px 0 40px; }
+    .catalog-hero h1 { margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Bloom<span>.</span>Editorial</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Our Books</a></li>
+      <li><a href="index.html#authors">Authors</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="catalog-hero">
+  <div class="container">
+    <span class="section-label">Complete Catalog</span>
+    <h1>Our Books</h1>
+    <p>Every book in the Bloom Editorial family — written to meet you exactly where you are.</p>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<section class="catalog-section">
+  <div class="container">
+
+    <!-- FILTERS -->
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterBooks('all', this)">All Books</button>
+      <button class="filter-tab" onclick="filterBooks('hannah', this)">Hannah Grace</button>
+      <button class="filter-tab" onclick="filterBooks('maya', this)">Maya Chen</button>
+      <button class="filter-tab" onclick="filterBooks('clara', this)">Clara Bennett</button>
+      <button class="filter-tab" onclick="filterBooks('claire', this)">Claire Harmon</button>
+    </div>
+
+    <!-- BOOKS GRID -->
+    <div class="books-grid" id="booksGrid">
+
+      <!-- HANNAH GRACE -->
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: var(--hannah);">
+          <div class="book-cover-text">A Woman's Guide to Healing Through Scripture</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>A Woman's Guide to Healing Through Scripture</h4>
+          <div class="price">$19.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: var(--hannah); opacity: 0.85;">
+          <div class="book-cover-text">A Woman's Daily Prayer Journal</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>A Woman's Daily Prayer Journal</h4>
+          <div class="price">$10.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: #a8623e;">
+          <div class="book-cover-text">Write the Word: A Scripture Writing Journal</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>Write the Word: A Scripture Writing Journal</h4>
+          <div class="price">$9.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: #b86a42;">
+          <div class="book-cover-text">Anxiety and Faith: A Bible Study for Women</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>Anxiety and Faith: A Bible Study for Women</h4>
+          <div class="price">$19.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: #c47850;">
+          <div class="book-cover-text">Psalms for the Brokenhearted</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>Psalms for the Brokenhearted</h4>
+          <div class="price">$17.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: #9e5a34;">
+          <div class="book-cover-text">A Bible Study for Women in Grief</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>A Bible Study for Women in Grief</h4>
+          <div class="price">$17.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: #bb7248;">
+          <div class="book-cover-text">Proverbs for Women: A Practical Bible Study</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>Proverbs for Women: A Practical Bible Study</h4>
+          <div class="price">$19.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="hannah">
+        <div class="book-cover" style="background: #8a4e2c;">
+          <div class="book-cover-text">Walking Through Fire: A Complete Women's Bible Study</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--hannah);">Hannah Grace</div>
+          <h4>Walking Through Fire: A Complete Women's Bible Study</h4>
+          <div class="price">$24.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <!-- MAYA CHEN -->
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: var(--maya);">
+          <div class="book-cover-text">The Vagus Nerve Workbook</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>The Vagus Nerve Workbook</h4>
+          <div class="price">$17.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: #4a7aa3;">
+          <div class="book-cover-text">My Nervous System Tracker</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>My Nervous System Tracker</h4>
+          <div class="price">$9.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: #3d6e96;">
+          <div class="book-cover-text">The Vagus Nerve Practice Journal</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>The Vagus Nerve Practice Journal</h4>
+          <div class="price">$11.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: #507fa8;">
+          <div class="book-cover-text">Somatic Healing for Trauma</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>Somatic Healing for Trauma</h4>
+          <div class="price">$17.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: #446d94;">
+          <div class="book-cover-text">The Nervous System Reset</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>The Nervous System Reset</h4>
+          <div class="price">$17.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: #5888b5;">
+          <div class="book-cover-text">Polyvagal Exercises for Beginners</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>Polyvagal Exercises for Beginners</h4>
+          <div class="price">$16.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: #3a608a;">
+          <div class="book-cover-text">Somatic Healing for Women</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>Somatic Healing for Women</h4>
+          <div class="price">$17.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="maya">
+        <div class="book-cover" style="background: #2d5070;">
+          <div class="book-cover-text">Heal Your Nervous System: The Complete Guide</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--maya);">Maya Chen</div>
+          <h4>Heal Your Nervous System: The Complete Guide</h4>
+          <div class="price">$22.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <!-- CLARA BENNETT -->
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: var(--clara);">
+          <div class="book-cover-text">Grief Journal for the Loss of a Mother</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>Grief Journal for the Loss of a Mother</h4>
+          <div class="price">$13.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: #b87288;">
+          <div class="book-cover-text">Mom's Kitchen: A Recipe Memory Book</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>Mom's Kitchen: A Recipe Memory Book</h4>
+          <div class="price">$14.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: #c98098;">
+          <div class="book-cover-text">My Mother, My Heart: A Memory Keepsake Book</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>My Mother, My Heart: A Memory Keepsake Book</h4>
+          <div class="price">$15.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: #aa6880;">
+          <div class="book-cover-text">A Mother's Legacy: 100 Questions</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>A Mother's Legacy: 100 Questions to Capture Everything She Was</h4>
+          <div class="price">$13.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: #c07890;">
+          <div class="book-cover-text">Dear Mom: Letters I Never Got to Send</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>Dear Mom: Letters I Never Got to Send</h4>
+          <div class="price">$16.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: #b06a82;">
+          <div class="book-cover-text">A Year Without Mom: 52 Weekly Letters</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>A Year Without Mom: 52 Weekly Letters</h4>
+          <div class="price">$16.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: #985e76;">
+          <div class="book-cover-text">Healing After Losing Your Mother: A Guided Workbook</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>Healing After Losing Your Mother: A Guided Workbook</h4>
+          <div class="price">$21.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="clara">
+        <div class="book-cover" style="background: #7a4a60;">
+          <div class="book-cover-text">The Grief Companion: 365 Daily Reflections</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--clara);">Clara Bennett</div>
+          <h4>The Grief Companion: 365 Daily Reflections</h4>
+          <div class="price">$24.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <!-- CLAIRE HARMON -->
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: var(--claire);">
+          <div class="book-cover-text">The Perimenopause Anxiety Workbook</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>The Perimenopause Anxiety Workbook</h4>
+          <div class="price">$21.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: #886878;">
+          <div class="book-cover-text">My Perimenopause Journal</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>My Perimenopause Journal</h4>
+          <div class="price">$12.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: #7a5e6e;">
+          <div class="book-cover-text">Perimenopause Daily Symptom Tracker</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>Perimenopause Daily Symptom Tracker</h4>
+          <div class="price">$11.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: #927082;">
+          <div class="book-cover-text">The Perimenopause Brain Fog Workbook</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>The Perimenopause Brain Fog Workbook</h4>
+          <div class="price">$19.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: #85687a;">
+          <div class="book-cover-text">Sleep Through Perimenopause</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>Sleep Through Perimenopause</h4>
+          <div class="price">$19.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: #6e5464;">
+          <div class="book-cover-text">The HRT Decision Workbook</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>The HRT Decision Workbook</h4>
+          <div class="price">$21.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: #9a7888;">
+          <div class="book-cover-text">Perimenopause Mood &amp; Rage Workbook</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>Perimenopause Mood &amp; Rage Workbook</h4>
+          <div class="price">$19.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+      <div class="book-card" data-author="claire">
+        <div class="book-cover" style="background: #5a4050;">
+          <div class="book-cover-text">The Complete Perimenopause Workbook</div>
+        </div>
+        <div class="book-info">
+          <div class="author-tag" style="color: var(--claire);">Claire Harmon</div>
+          <h4>The Complete Perimenopause Workbook</h4>
+          <div class="price">$26.99</div>
+          <a href="#" class="btn btn-amazon">View on Amazon</a>
+        </div>
+      </div>
+
+    </div><!-- /books-grid -->
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-logo">Bloom<span>.</span>Editorial</div>
+    <p style="margin-top:8px;">&copy; 2025 Bloom Editorial. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+function filterBooks(author, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.book-card').forEach(card => {
+    card.style.display = (author === 'all' || card.dataset.author === author) ? 'block' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
