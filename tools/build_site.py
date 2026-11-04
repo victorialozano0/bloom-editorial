@@ -16,7 +16,7 @@ SITE = "https://bloomeditorial.netlify.app"
 
 AUTHORS = {
     "hannah-grace": {
-        "name": "Hannah Grace", "short": "Hannah", "season": "Faith & healing", "panel": "p-rose",
+        "name": "Hannah Grace", "short": "Hannah", "season": "Faith & healing", "panel": "p-rose", "accent": "#c2577a",
         "emblem": "olive.webp", "ew": 360, "eh": 691,
         "tagline": "Bible studies for women in hard seasons.",
         "bio": "Scripture-based studies for women carrying something heavy: grief, anxiety, betrayal, the quiet ache of feeling unseen. Pastoral without being preachy. Built to be worked through with a pen, not just read.",
@@ -27,7 +27,7 @@ AUTHORS = {
                     "Psalms for the Brokenhearted", "A Bible Study for Women in Grief", "Proverbs for Women", "Walking Through Fire"],
     },
     "maya-chen": {
-        "name": "Maya Chen", "short": "Maya", "season": "Anxiety & nervous system", "panel": "p-mint",
+        "name": "Maya Chen", "short": "Maya", "season": "Anxiety & nervous system", "panel": "p-mint", "accent": "#2c7d5b",
         "emblem": "tree.webp", "ew": 360, "eh": 361,
         "tagline": "Somatic healing for a nervous system that learned to brace.",
         "bio": "Short, guided vagus nerve and somatic practices, with the science explained in plain language. Books for the bedside table, made to be used on the hard days.",
@@ -38,7 +38,7 @@ AUTHORS = {
                     "The Nervous System Reset", "Polyvagal Exercises for Beginners", "Somatic Healing for Women", "Heal Your Nervous System"],
     },
     "clara-bennett": {
-        "name": "Clara Bennett", "short": "Clara", "season": "Grief & remembering Mom", "panel": "p-sand",
+        "name": "Clara Bennett", "short": "Clara", "season": "Grief & remembering Mom", "panel": "p-sand", "accent": "#b4651f",
         "emblem": "forget.webp", "ew": 360, "eh": 345,
         "tagline": "Journals and keepsakes for daughters who lost their mother.",
         "bio": "Grief that doesn't follow a timeline or a rulebook. Clara's journals are not about getting over it. They are about carrying it, honoring her, and keeping her close on the anniversaries and the ordinary days.",
@@ -48,7 +48,7 @@ AUTHORS = {
                     "Healing After Losing Your Mother", "The Grief Companion"],
     },
     "claire-harmon": {
-        "name": "Claire Harmon", "short": "Claire", "season": "Perimenopause", "panel": "p-lilac",
+        "name": "Claire Harmon", "short": "Claire", "season": "Perimenopause", "panel": "p-lilac", "accent": "#7d52c9",
         "emblem": "lavender.webp", "ew": 360, "eh": 429,
         "tagline": "The emotional side of perimenopause, finally named.",
         "bio": "Workbooks for the anxiety, brain fog, broken sleep and rage that can arrive with perimenopause. Plain language, practical tools, zero shame.",
@@ -131,6 +131,11 @@ def page(title, desc, canonical, body):
 '''
 
 
+def banner(text):
+    """'Your wound deserves a [name].' -> escaped HTML with <b> around the key words."""
+    return re.sub(r"\[(.+?)\]", lambda m: f"<b>{m.group(1)}</b>", e(text))
+
+
 def card(a, big=False):
     d = AUTHORS[a["author"]]
     cls = "jcard jcard-big" if big else "jcard"
@@ -176,7 +181,10 @@ def build():
     <p class="article-dek">{e(a["dek"])}</p>
     <p class="byline"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"><span>By <a href="/authors/{a["author"]}.html">{e(d["name"])}</a> &middot; {a["read_minutes"]} min read</span></p>
   </header>
-  <div class="article-hero {d["panel"]}"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"></div>
+  <div class="article-hero {d["panel"]}" style="--accent:{d["accent"]}">
+    <p class="banner" aria-label="{e(a["banner"].replace("[", "").replace("]", ""))}"><span aria-hidden="true">{banner(a["banner"])}</span></p>
+    <img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true">
+  </div>
   <div class="article-body wrap">{a["body_html"]}</div>
   <aside class="article-end wrap">
     <div class="author-box"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"><div><p class="eyebrow">About the author</p><h3>{e(d["name"])}</h3><p class="muted">{e(d["bio"])}</p><a class="textlink" href="/authors/{a["author"]}.html">More from {e(d["short"])} &rarr;</a></div></div>

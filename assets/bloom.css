@@ -425,9 +425,11 @@ body.inner main { padding-top: 68px; }
 .byline { margin-top: 24px; display: inline-flex; align-items: center; gap: 10px; font-size: .92rem; color: var(--muted); }
 .byline img { width: 34px; height: 34px; object-fit: contain; }
 .byline a { color: var(--ink); font-weight: 600; text-decoration: none; }
-.article-hero { overflow: hidden; max-width: 1000px; height: clamp(200px, 26vw, 300px); margin: clamp(32px, 4vw, 48px) auto 0; border-radius: 28px; display: grid; place-items: center; }
+.article-hero { position: relative; overflow: hidden; max-width: 1000px; min-height: clamp(220px, 26vw, 320px); margin: clamp(32px, 4vw, 48px) auto 0; padding: clamp(36px, 5vw, 64px) clamp(28px, 6vw, 80px); border-radius: 28px; display: grid; place-items: center; text-align: center; }
 @media (max-width: 1040px) { .article-hero { margin-left: 18px; margin-right: 18px; } }
-.article-hero img { height: clamp(140px, 19vw, 230px); width: auto; max-width: 80%; object-fit: contain; filter: saturate(1.25) drop-shadow(0 14px 16px rgb(31 36 64 / .16)); }
+.banner { position: relative; z-index: 1; max-width: 16ch; font: 700 clamp(2rem, 5.2vw, 4.2rem)/.98 var(--display); letter-spacing: -.04em; text-transform: uppercase; color: var(--ink); }
+.banner b { font-weight: 700; color: var(--accent); }
+.article-hero img { position: absolute; right: clamp(14px, 3vw, 36px); bottom: -12px; height: clamp(90px, 12vw, 150px); width: auto; opacity: .9; rotate: -8deg; filter: saturate(1.2); }
 .article-body { max-width: 680px; padding-top: clamp(40px, 5vw, 60px); font-size: 1.125rem; line-height: 1.8; color: #2f3248; }
 .article-body p { margin: 0 0 1.25em; }
 .article-body h3 { margin: 1.8em 0 .6em; font-size: 1.5rem; line-height: 1.2; letter-spacing: -.02em; color: var(--ink); }
