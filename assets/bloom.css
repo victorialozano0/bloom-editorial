@@ -501,3 +501,8 @@ img.avatar { border-radius: 50%; object-fit: cover; }
 .author-photo .badge img { width: 70%; height: 70%; object-fit: contain; position: static; filter: none; }
 .other-big .author-photo .portrait, .author-hero .author-photo .portrait { width: 100%; height: 100%; max-width: none; }
 .other-big .author-photo .badge img { width: 70%; height: 70%; }
+
+/* Nav hover: brand rose */
+.nav ul.nav-list > li > a, .dd-btn { transition: color .25s; }
+.nav ul.nav-list > li > a:hover, .nav ul.nav-list > li > a:focus-visible, .dd-btn:hover, .dd.open .dd-btn, .dd:hover .dd-btn { color: var(--rose); }
+.nav .dd-menu a:hover b { color: var(--rose); }
