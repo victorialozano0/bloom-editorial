@@ -14,8 +14,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
 <link rel="stylesheet" href="assets/bloom.css">
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -234,21 +235,28 @@
 </section>
 
 <!-- LOOK INSIDE: real pages -->
-<section class="sec sec-soft" id="inside" aria-labelledby="inside-h">
-  <div class="glow g3" aria-hidden="true"></div>
+<section class="flip-sec" id="inside" aria-labelledby="inside-h">
+  <div class="flip-glow" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="head-row rv">
-      <div>
-        <h2 class="h2" id="inside-h">Look inside the books</h2>
-        <p class="sub">Real pages. Every chapter ends with something to do, and room to write.</p>
-      </div>
+    <div class="flip-head rv">
+      <p class="flip-eyebrow">Look inside</p>
+      <h2 id="inside-h">Flip through real pages</h2>
+      <p>Choose a book, then swipe. <strong>Tap a page to see it up close.</strong></p>
     </div>
-    <div class="pages">
-      <a class="page rv" href="#book-hannah"><span class="page-img"><img src="img/pages/hannah-prayer.webp" width="600" height="900" alt="Page from Healing Bible Study for Women: The Seven-Day Healing Covenant Prayer" loading="lazy" decoding="async"></span><span class="page-meta"><b>Seven-day healing prayer</b>Healing Bible Study for Women</span></a>
-      <a class="page rv" href="#book-maya" style="--d:.06s"><span class="page-img"><img src="img/pages/maya-log.webp" width="600" height="900" alt="Page from Vagus Nerve Exercises for Anxiety: 28-Day Tracking Log" loading="lazy" decoding="async"></span><span class="page-meta"><b>28-day tracking log</b>Vagus Nerve Exercises for Anxiety</span></a>
-      <a class="page rv" href="#book-claire" style="--d:.12s"><span class="page-img"><img src="img/pages/claire-tracker.webp" width="600" height="900" alt="Page from Perimenopause Anxiety Workbook: Two-Week Three-Point Tracker log" loading="lazy" decoding="async"></span><span class="page-meta"><b>Two-week tracker</b>Perimenopause Anxiety Workbook</span></a>
-      <a class="page rv" href="#book-hannah" style="--d:.18s"><span class="page-img"><img src="img/pages/hannah-reflection.webp" width="600" height="900" alt="Page from Healing Bible Study for Women: Reflection Questions" loading="lazy" decoding="async"></span><span class="page-meta"><b>Reflection questions</b>Healing Bible Study for Women</span></a>
+    <div class="flip-tabs" role="tablist" aria-label="Choose a book">
+      <button role="tab" aria-selected="true" aria-controls="flip-hannah" id="ft-hannah">Healing Bible Study</button>
+      <button role="tab" aria-selected="false" aria-controls="flip-maya" id="ft-maya" tabindex="-1">Vagus Nerve Exercises</button>
+      <button role="tab" aria-selected="false" aria-controls="flip-claire" id="ft-claire" tabindex="-1">Perimenopause Workbook</button>
     </div>
+    <div class="swiper flip" id="flip-hannah" role="tabpanel" aria-labelledby="ft-hannah" data-book="hannah" data-label="Healing Bible Study for Women"><div class="swiper-wrapper"></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="swiper-pagination"></div></div>
+    <div class="swiper flip" id="flip-maya" role="tabpanel" aria-labelledby="ft-maya" data-book="maya" data-label="Vagus Nerve Exercises for Anxiety" hidden><div class="swiper-wrapper"></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="swiper-pagination"></div></div>
+    <div class="swiper flip" id="flip-claire" role="tabpanel" aria-labelledby="ft-claire" data-book="claire" data-label="Perimenopause Anxiety Workbook" hidden><div class="swiper-wrapper"></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="swiper-pagination"></div></div>
+    <p class="flip-note">8 preview pages &middot; Swipe to explore</p>
+  </div>
+
+  <div class="flip-modal" id="flip-modal" hidden>
+    <button class="flip-close" type="button" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+    <img src="" alt="">
   </div>
 </section>
 
@@ -340,6 +348,7 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js" defer></script>
 <script src="assets/bloom.js" defer></script>
 </body>
 </html>

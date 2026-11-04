@@ -75,5 +75,68 @@
     });
   });
 
+  // flip-through preview: one Swiper per book, built on first view, plus a zoom lightbox
+  var flipPages = {
+    hannah: ['Title page', 'Contents', 'Chapter 1 opener', 'Memory verse and the story of Carolyn', 'Integration bridge and reflection questions', 'Reflection questions: five questions for the journey', 'The seven-day healing covenant prayer', 'Memory verse: Mark 5:19'],
+    maya: ['Title page', 'Contents', 'Chapter 1 opener', 'Opening page: 11:47pm on a Tuesday', 'Your heart rate variability', 'Exercise 02: your personal vagal state journal', 'The 0 to 5 anxiety scale', 'The full sequence at a glance'],
+    claire: ['Title page', 'Contents', 'Chapter 1 opener', 'Opening page: it\'s 3 a.m.', 'Exercise 01: anxiety log', 'Tool 01: the physiological sigh', '3-day blood sugar and anxiety diary', 'The values anchor']
+  };
+  var flips = {};
+  var modal = document.getElementById('flip-modal');
+  var modalImg = modal ? modal.querySelector('img') : null;
+  function openModal(src, alt) {
+    modalImg.src = src; modalImg.alt = alt;
+    modal.hidden = false; document.body.style.overflow = 'hidden';
+    modal.querySelector('.flip-close').focus();
+  }
+  function closeModal() { modal.hidden = true; document.body.style.overflow = ''; }
+  function buildFlip(el) {
+    var book = el.dataset.book, label = el.dataset.label, wrap = el.querySelector('.swiper-wrapper');
+    flipPages[book].forEach(function (name, i) {
+      var slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      var img = document.createElement('img');
+      img.src = 'img/flip/' + book + '/' + String(i + 1).padStart(2, '0') + '.webp';
+      img.alt = label + ', page preview: ' + name;
+      img.width = 640; img.height = 960; img.loading = i < 2 ? 'eager' : 'lazy'; img.draggable = false;
+      img.addEventListener('click', function () { openModal(img.src, img.alt); });
+      slide.appendChild(img); wrap.appendChild(slide);
+    });
+    if (!window.Swiper) { el.classList.add('no-swiper'); return; }
+    flips[book] = new Swiper(el, {
+      slidesPerView: 1.15, spaceBetween: 16, centeredSlides: true, grabCursor: true, speed: reduce ? 0 : 500,
+      keyboard: { enabled: true, onlyInViewport: true },
+      navigation: { nextEl: el.querySelector('.swiper-button-next'), prevEl: el.querySelector('.swiper-button-prev') },
+      pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
+      breakpoints: { 768: { slidesPerView: 1.6, spaceBetween: 30 }, 1024: { slidesPerView: 2.1, spaceBetween: 40 } }
+    });
+  }
+  var flipTabs = Array.prototype.slice.call(document.querySelectorAll('.flip-tabs [role="tab"]'));
+  function showFlip(tab, focus) {
+    flipTabs.forEach(function (t) {
+      var on = t === tab, panel = document.getElementById(t.getAttribute('aria-controls'));
+      t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; panel.hidden = !on;
+      if (on) {
+        if (!panel.dataset.built) { panel.dataset.built = '1'; buildFlip(panel); }
+        else if (flips[panel.dataset.book]) flips[panel.dataset.book].update();
+      }
+    });
+    if (focus) tab.focus();
+  }
+  if (flipTabs.length) {
+    flipTabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { showFlip(t); });
+      t.addEventListener('keydown', function (e) {
+        var n = null;
+        if (e.key === 'ArrowRight') n = flipTabs[(i + 1) % flipTabs.length];
+        if (e.key === 'ArrowLeft') n = flipTabs[(i - 1 + flipTabs.length) % flipTabs.length];
+        if (n) { e.preventDefault(); showFlip(n, true); }
+      });
+    });
+    showFlip(flipTabs[0]);
+    modal.addEventListener('click', function (e) { if (e.target === modal || e.target.closest('.flip-close')) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  }
+
   document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });
 })();
