@@ -67,7 +67,7 @@ e = html.escape
 
 
 def nav():
-    items = "".join(f'<li><a href="/authors/{a}.html"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true">'
+    items = "".join(f'<li><a href="/authors/{a}.html"><img class="avatar" src="/img/authors/{a}-sq.webp" width="240" height="240" alt="" aria-hidden="true">'
                     f'<span><b>{e(d["name"])}</b>{e(d["season"])}</span></a></li>' for a, d in AUTHORS.items())
     return f'''<header class="nav">
   <div class="wrap nav-in">
@@ -188,7 +188,7 @@ def build():
     <p class="crumbs"><a href="/journal/">Journal</a> <span aria-hidden="true">/</span> <a href="/authors/{a["author"]}.html">{e(d["name"])}</a></p>
     <h1>{e(a["title"])}</h1>
     <p class="article-dek">{e(a["dek"])}</p>
-    <p class="byline"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"><span>By <a href="/authors/{a["author"]}.html">{e(d["name"])}</a> &middot; {a["read_minutes"]} min read</span></p>
+    <p class="byline"><img class="avatar" src="/img/authors/{a["author"]}-sq.webp" width="240" height="240" alt="" aria-hidden="true"><span>By <a href="/authors/{a["author"]}.html">{e(d["name"])}</a> &middot; {a["read_minutes"]} min read</span></p>
   </header>
   <div class="article-hero {d["panel"]}" style="--accent:{d["accent"]}">
     <p class="banner" aria-label="{e(a["banner"].replace("[", "").replace("]", ""))}"><span aria-hidden="true">{banner(a["banner"])}</span></p>
@@ -196,7 +196,7 @@ def build():
   </div>
   <div class="article-body wrap">{a["body_html"]}</div>
   <aside class="article-end wrap">
-    <div class="author-box"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"><div><p class="eyebrow">About the author</p><h3>{e(d["name"])}</h3><p class="muted">{e(d["bio"])}</p><a class="textlink" href="/authors/{a["author"]}.html">More from {e(d["short"])} &rarr;</a></div></div>
+    <div class="author-box"><img class="avatar" src="/img/authors/{a["author"]}-sq.webp" width="240" height="240" alt="Portrait of {e(d["name"])}" loading="lazy"><div><p class="eyebrow">About the author</p><h3>{e(d["name"])}</h3><p class="muted">{e(d["bio"])}</p><a class="textlink" href="/authors/{a["author"]}.html">More from {e(d["short"])} &rarr;</a></div></div>
     {book}
   </aside>
 </article>
@@ -220,10 +220,10 @@ def build():
         mine = [x for x in mixed if x["author"] == k]
         books = "".join(book_block(b) for b in d["books"])
         planned = "".join(f"<li>{e(t)}</li>" for t in d["planned"])
-        others = "".join(f'<a class="other" href="/authors/{o}.html"><img src="/img/botanical/{AUTHORS[o]["emblem"]}" alt="" aria-hidden="true"><span><b>{e(AUTHORS[o]["name"])}</b>{e(AUTHORS[o]["season"])}</span></a>'
+        others = "".join(f'<a class="other" href="/authors/{o}.html"><img class="avatar" src="/img/authors/{o}-sq.webp" width="240" height="240" alt="" aria-hidden="true"><span><b>{e(AUTHORS[o]["name"])}</b>{e(AUTHORS[o]["season"])}</span></a>'
                          for o in ORDER if o != k)
         body = f'''<section class="author-hero wrap">
-  <div class="author-panel {d["panel"]}"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"></div>
+  <div class="author-panel author-photo {d["panel"]}"><img class="portrait" src="/img/authors/{k}.webp" width="800" height="1000" alt="Portrait of {e(d["name"])}"><span class="badge"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"></span></div>
   <div class="author-intro"><p class="eyebrow">{e(d["season"])}</p><h1>{e(d["name"])}</h1><p class="article-dek">{e(d["tagline"])}</p><p class="muted">{e(d["bio"])}</p></div>
 </section>
 <section class="sec"><div class="wrap"><h2 class="h2">From {e(d["short"])}'s journal</h2><div class="jgrid">{"".join(card(x) for x in mine)}</div></div></section>
@@ -233,7 +233,7 @@ def build():
         (ROOT / "authors" / f"{k}.html").write_text(page(f'{d["name"]} | Bloom Editorial', d["tagline"], f"/authors/{k}.html", body), encoding="utf-8")
 
     # authors index
-    tiles = "".join(f'<a class="other other-big" href="/authors/{k}.html"><span class="author-panel {d["panel"]}"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"></span><span><b>{e(d["name"])}</b>{e(d["tagline"])}</span></a>' for k, d in AUTHORS.items())
+    tiles = "".join(f'<a class="other other-big" href="/authors/{k}.html"><span class="author-panel author-photo {d["panel"]}"><img class="portrait" src="/img/authors/{k}.webp" width="800" height="1000" alt="Portrait of {e(d["name"])}" loading="lazy"><span class="badge"><img src="/img/botanical/{d["emblem"]}" alt="" aria-hidden="true"></span></span><span><b>{e(d["name"])}</b>{e(d["tagline"])}</span></a>' for k, d in AUTHORS.items())
     body = f'''<section class="page-head"><div class="wrap"><p class="eyebrow">Our authors</p><h1>Four authors, <em>four seasons.</em></h1><p class="lede">Each author writes for one hard season, and only that one.</p></div></section>
 <section class="sec sec-top0"><div class="wrap"><div class="others others-big">{tiles}</div></div></section>'''
     (ROOT / "authors.html").write_text(page("Our authors | Bloom Editorial", "Meet the four authors of Bloom Editorial.", "/authors.html", body), encoding="utf-8")

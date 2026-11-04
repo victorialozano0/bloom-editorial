@@ -486,3 +486,18 @@ body.inner main { padding-top: 68px; }
 .logo .logo-h { width: auto; height: 88px; margin: -26px 0 -26px -5px; }
 .foot .logo .logo-h { height: 100px; margin: -30px 0 -30px -6px; }
 @media (max-width: 520px) { .logo .logo-h { height: 66px; margin: -20px 0 -20px -4px; } }
+
+/* Author portraits */
+img.avatar { border-radius: 50%; object-fit: cover; }
+.dd-menu img.avatar { width: 40px; height: 40px; }
+.byline img.avatar { width: 38px; height: 38px; }
+.author-box img.avatar { width: 96px; height: 96px; }
+.other img.avatar { width: 58px; height: 58px; }
+.author-photo { position: relative; overflow: hidden; padding: 0; }
+.author-photo .portrait { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center 25%; filter: none; position: absolute; inset: 0; }
+.author-hero .author-photo { aspect-ratio: 4 / 5; min-height: 0; max-height: 560px; }
+.other-big .author-photo { aspect-ratio: 4 / 3; min-height: 0; }
+.author-photo .badge { position: absolute; right: 14px; bottom: 14px; width: 62px; height: 62px; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 10px 22px -10px rgb(31 36 64 / .45); }
+.author-photo .badge img { width: 70%; height: 70%; object-fit: contain; position: static; filter: none; }
+.other-big .author-photo .portrait, .author-hero .author-photo .portrait { width: 100%; height: 100%; max-width: none; }
+.other-big .author-photo .badge img { width: 70%; height: 70%; }
