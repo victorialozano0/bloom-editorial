@@ -138,5 +138,40 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
   }
 
+  // nav: authors dropdown + mobile menu
+  var dd = document.querySelector('.dd'), ddBtn = document.querySelector('.dd-btn');
+  if (dd && ddBtn) {
+    ddBtn.addEventListener('click', function () {
+      var open = !dd.classList.contains('open');
+      dd.classList.toggle('open', open); ddBtn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', function (e) {
+      if (!dd.contains(e.target)) { dd.classList.remove('open'); ddBtn.setAttribute('aria-expanded', 'false'); }
+    });
+  }
+  var menuBtn = document.querySelector('.menu-btn'), mainNav = document.getElementById('main-nav');
+  if (menuBtn && mainNav) {
+    menuBtn.addEventListener('click', function () {
+      var open = !mainNav.classList.contains('open');
+      mainNav.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      menuBtn.querySelector('.ph').className = 'ph ' + (open ? 'ph-x' : 'ph-list');
+    });
+    mainNav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { mainNav.classList.remove('open'); }); });
+  }
+
+  // journal: filter cards by author (also reads #author-id from the URL)
+  var pills = document.querySelectorAll('.jpill');
+  if (pills.length) {
+    var cards = document.querySelectorAll('.jgrid-index .jcard');
+    function filter(f) {
+      pills.forEach(function (p) { p.setAttribute('aria-pressed', String(p.dataset.filter === f)); });
+      cards.forEach(function (c) { c.hidden = !(f === 'all' || c.dataset.author === f); c.classList.add('in'); });
+    }
+    pills.forEach(function (p) { p.addEventListener('click', function () { filter(p.dataset.filter); }); });
+    var h = location.hash.replace('#', '');
+    if (h && document.querySelector('.jpill[data-filter="' + h + '"]')) filter(h);
+  }
+
   document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });
 })();
