@@ -22,7 +22,8 @@ AUTHORS = {
         "bio": "Scripture-based studies for women carrying something heavy: grief, anxiety, betrayal, the quiet ache of feeling unseen. Pastoral without being preachy. Built to be worked through with a pen, not just read.",
         "books": [{"title": "Healing Bible Study for Women", "cover": "healing-bible-study-for-women", "ch": 768,
                    "dek": "A 6-week, Scripture-based journey to restore your broken heart and renew your mind.",
-                   "links": [("Paperback", "B0H17PD38W"), ("Kindle", "B0H18ZX2SX")]}],
+                   "links": [("Paperback", "B0H17PD38W"), ("Kindle", "B0H18ZX2SX"), ("Hardcover", "B0HQDCMYZH")],
+                   "review": "B0H17PD38W"}],
         "planned": ["Daily Prayer Journal for Women", "Scripture Journal for Women: Write the Word", "Anxiety and Faith",
                     "Psalms for the Brokenhearted", "A Bible Study for Women in Grief", "Proverbs for Women", "Walking Through Fire"],
     },
@@ -33,7 +34,8 @@ AUTHORS = {
         "bio": "Short, guided vagus nerve and somatic practices, with the science explained in plain language. Books for the bedside table, made to be used on the hard days.",
         "books": [{"title": "Vagus Nerve Exercises for Anxiety", "cover": "vagus-nerve-exercises-for-anxiety", "ch": 768,
                    "dek": "A 10-minute daily reset with step-by-step practices you can actually do.",
-                   "links": [("Paperback", "B0H19KD54V"), ("Kindle", "B0H19DC7YS"), ("Hardcover", "B0H19KSCRL")]}],
+                   "links": [("Paperback", "B0H19KD54V"), ("Kindle", "B0H19DC7YS"), ("Hardcover", "B0H19KSCRL")],
+                   "review": "B0H19KD54V"}],
         "planned": ["My Nervous System Tracker", "The Vagus Nerve Practice Journal", "Somatic Healing for Trauma",
                     "The Nervous System Reset", "Polyvagal Exercises for Beginners", "Somatic Healing for Women", "Heal Your Nervous System"],
     },
@@ -53,7 +55,8 @@ AUTHORS = {
         "tagline": "The emotional side of perimenopause, finally named.",
         "bio": "Workbooks for the anxiety, brain fog, broken sleep and rage that can arrive with perimenopause. Plain language, practical tools, zero shame.",
         "books": [{"title": "Perimenopause Anxiety Workbook", "cover": "perimenopause-anxiety-workbook", "ch": 720,
-                   "dek": "A 30-day guided workbook with trackers and 10-minute calm strategies.", "links": []}],
+                   "dek": "A 30-day guided workbook with trackers and 10-minute calm strategies.",
+                   "links": [("Paperback", "B0HQFBDRF9")], "review": "B0HQFBDRF9"}],
         "planned": ["My Perimenopause Journal", "Perimenopause Daily Symptom Tracker", "The Perimenopause Brain Fog Workbook",
                     "Sleep Through Perimenopause", "The HRT Decision Workbook", "Perimenopause Mood & Rage Workbook",
                     "The Complete Perimenopause Workbook"],
@@ -68,7 +71,7 @@ def nav():
                     f'<span><b>{e(d["name"])}</b>{e(d["season"])}</span></a></li>' for a, d in AUTHORS.items())
     return f'''<header class="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="/"><img src="/img/botanical/olive.webp" width="18" height="35" alt="" aria-hidden="true">bloom editorial</a>
+    <a class="logo" href="/" aria-label="Bloom Editorial, home"><img src="/img/brand/bloom-mark.png" width="256" height="261" alt=""><img class="logo-word" src="/img/brand/bloom-wordmark.png" width="600" height="213" alt="Bloom Editorial"></a>
     <nav aria-label="Main" class="main-nav" id="main-nav">
       <ul class="nav-list">
         <li><a href="/journal/">Journal</a></li>
@@ -90,7 +93,7 @@ def foot():
     links = "".join(f'<li><a href="/authors/{a}.html">{e(d["name"])}</a></li>' for a, d in AUTHORS.items())
     return f'''<footer class="foot">
   <div class="wrap foot-in">
-    <a class="logo" href="/"><img src="/img/botanical/olive.webp" width="18" height="35" alt="" aria-hidden="true">bloom editorial</a>
+    <a class="logo" href="/" aria-label="Bloom Editorial, home"><img src="/img/brand/bloom-mark.png" width="256" height="261" alt=""><img class="logo-word" src="/img/brand/bloom-wordmark.png" width="600" height="213" alt="Bloom Editorial"></a>
     <ul aria-label="Explore"><li><a href="/journal/">Journal</a></li>{links}</ul>
     <p class="legal">&copy; <span data-year>2026</span> Bloom Editorial. Our books support, but never replace, care from a doctor or licensed therapist.</p>
   </div>
@@ -106,6 +109,8 @@ def page(title, desc, canonical, body):
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
 <meta name="theme-color" content="#faf8f4">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/brand/favicon-180.png">
 <link rel="canonical" href="{SITE}{canonical}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{e(title)}">
@@ -150,6 +155,10 @@ def book_block(b):
     links = "".join(f'<a href="https://www.amazon.com/dp/{asin}" rel="noopener" target="_blank">{fmt}<span class="sr"> on Amazon (opens in a new tab)</span></a>'
                     for fmt, asin in b["links"])
     buy = f'<p class="formats">{links}</p>' if links else '<p class="soon">Coming soon</p>'
+    if b.get("review"):
+        # Readers arrive here from the "One small favor" page at the end of each book
+        buy += (f'<p class="review-ask">Finished the book? <a href="https://www.amazon.com/review/create-review?asin={b["review"]}" '
+                f'rel="noopener" target="_blank">Leave an honest review on Amazon<span class="sr"> (opens in a new tab)</span></a></p>')
     return f'''<div class="side-book"><img src="/img/{b["cover"]}-480.webp" width="480" height="{b["ch"]}" alt="Cover of {e(b["title"])}" loading="lazy">
   <div><p class="eyebrow">The book</p><h3>{e(b["title"])}</h3><p class="muted">{e(b["dek"])}</p>{buy}</div></div>'''
 
