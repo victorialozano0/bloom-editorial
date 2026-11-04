@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <link rel="stylesheet" href="assets/bloom.css">
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -62,34 +63,81 @@
 </section>
 
 <!-- SEASONS: start from the reader's need, not the author's name -->
-<section class="sec sec-tight" id="seasons" aria-labelledby="seasons-h">
+<section class="sec seasons-sec" id="seasons" aria-labelledby="seasons-h">
+  <div class="glow g4" aria-hidden="true"></div>
+  <div class="glow g5" aria-hidden="true"></div>
   <div class="wrap">
     <h2 class="h2 center rv" id="seasons-h">What kind of season are you in?</h2>
     <div class="seasons">
-      <a class="season s-rose rv" href="#book-hannah">
-        <img src="img/botanical/olive.webp" width="360" height="691" alt="" aria-hidden="true">
-        <span class="season-name">Faith &amp; healing</span>
-        <span class="season-line">When faith feels far and you need Scripture to meet you there.</span>
-        <span class="season-status">Available now <b aria-hidden="true">&rarr;</b></span>
-      </a>
-      <a class="season s-mint rv" href="#book-maya" style="--d:.06s">
-        <img src="img/botanical/tree.webp" width="360" height="361" alt="" aria-hidden="true">
-        <span class="season-name">Anxiety &amp; nervous system</span>
-        <span class="season-line">When your mind knows you're safe and your body hasn't heard.</span>
-        <span class="season-status">Available now <b aria-hidden="true">&rarr;</b></span>
-      </a>
-      <a class="season s-sand rv" href="authors/clara-bennett.html" style="--d:.12s">
-        <img src="img/botanical/forget.webp" width="360" height="345" alt="" aria-hidden="true">
-        <span class="season-name">Grief &amp; remembering Mom</span>
-        <span class="season-line">For when you reach for the phone to call her, and remember.</span>
-        <span class="season-status muted-status">In development</span>
-      </a>
-      <a class="season s-lilac rv" href="#book-claire" style="--d:.18s">
-        <img src="img/botanical/lavender.webp" width="360" height="429" alt="" aria-hidden="true">
-        <span class="season-name">Perimenopause</span>
-        <span class="season-line">For the 3 a.m. wakeups and the feelings nobody warned you about.</span>
-        <span class="season-status muted-status">Coming soon</span>
-      </a>
+
+      <article class="season rv">
+        <div class="season-panel p-rose">
+          <img src="img/botanical/olive.webp" width="360" height="691" alt="" aria-hidden="true">
+          <h3>Faith &amp; healing</h3>
+          <p>When faith feels far and you need Scripture to meet you there.</p>
+        </div>
+        <a class="btn btn-dark" href="#book-hannah">See the book</a>
+        <p class="what">Inside the book</p>
+        <ul class="checks">
+          <li>6-week Scripture-based study</li>
+          <li>Memory verses and reflection questions</li>
+          <li>A seven-day healing prayer</li>
+          <li>Room to write your own lament</li>
+        </ul>
+        <p class="foot-note"><span aria-hidden="true">&#9783;</span> Paperback &middot; Kindle</p>
+      </article>
+
+      <article class="season rv" style="--d:.06s">
+        <div class="season-panel p-mint">
+          <img src="img/botanical/tree.webp" width="360" height="361" alt="" aria-hidden="true">
+          <h3>Anxiety &amp; nervous system</h3>
+          <p>When your mind knows you're safe and your body hasn't heard.</p>
+        </div>
+        <a class="btn btn-dark" href="#book-maya">See the book</a>
+        <p class="what">Inside the book</p>
+        <ul class="checks">
+          <li>27 exercises, ranked</li>
+          <li>A 10-minute daily reset</li>
+          <li>28-day tracking log</li>
+          <li>Anxiety crisis toolkit</li>
+        </ul>
+        <p class="foot-note"><span aria-hidden="true">&#9783;</span> Paperback &middot; Kindle &middot; Hardcover</p>
+      </article>
+
+      <article class="season rv" style="--d:.12s">
+        <div class="season-panel p-sand">
+          <img src="img/botanical/forget.webp" width="360" height="345" alt="" aria-hidden="true">
+          <h3>Grief &amp; remembering Mom</h3>
+          <p>For when you reach for the phone to call her, and remember.</p>
+        </div>
+        <a class="btn btn-soft" href="authors/clara-bennett.html">Meet Clara</a>
+        <p class="what">Planned books</p>
+        <ul class="checks">
+          <li>A guided grief journal</li>
+          <li>Mom's recipe memory book</li>
+          <li>Letters to the mother you miss</li>
+          <li>A year of weekly reflections</li>
+        </ul>
+        <p class="foot-note"><span aria-hidden="true">&#10047;</span> In development</p>
+      </article>
+
+      <article class="season rv" style="--d:.18s">
+        <div class="season-panel p-lilac">
+          <img src="img/botanical/lavender.webp" width="360" height="429" alt="" aria-hidden="true">
+          <h3>Perimenopause</h3>
+          <p>For the 3 a.m. wakeups and the feelings nobody warned you about.</p>
+        </div>
+        <a class="btn btn-soft" href="#book-claire">See what's coming</a>
+        <p class="what">Inside the book</p>
+        <ul class="checks">
+          <li>A 10-minute calm toolkit</li>
+          <li>Your anxiety profile and tracker</li>
+          <li>How to talk to your doctor</li>
+          <li>Your 30-day calm plan</li>
+        </ul>
+        <p class="foot-note"><span aria-hidden="true">&#10047;</span> Coming soon</p>
+      </article>
+
     </div>
   </div>
 </section>
@@ -191,6 +239,26 @@
       <a class="page rv" href="#book-maya" style="--d:.06s"><span class="page-img"><img src="img/pages/maya-log.webp" width="600" height="900" alt="Page from Vagus Nerve Exercises for Anxiety: 28-Day Tracking Log" loading="lazy" decoding="async"></span><span class="page-meta"><b>28-day tracking log</b>Vagus Nerve Exercises for Anxiety</span></a>
       <a class="page rv" href="#book-claire" style="--d:.12s"><span class="page-img"><img src="img/pages/claire-tracker.webp" width="600" height="900" alt="Page from Perimenopause Anxiety Workbook: Two-Week Three-Point Tracker log" loading="lazy" decoding="async"></span><span class="page-meta"><b>Two-week tracker</b>Perimenopause Anxiety Workbook</span></a>
       <a class="page rv" href="#book-hannah" style="--d:.18s"><span class="page-img"><img src="img/pages/hannah-reflection.webp" width="600" height="900" alt="Page from Healing Bible Study for Women: Reflection Questions" loading="lazy" decoding="async"></span><span class="page-meta"><b>Reflection questions</b>Healing Bible Study for Women</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES: what every Bloom book holds -->
+<section class="sec" aria-labelledby="feat-h">
+  <div class="wrap">
+    <h2 class="h2 center rv" id="feat-h">More than words on a page</h2>
+    <p class="sub center rv">Every Bloom book is built to be used, a little at a time.</p>
+    <div class="features">
+      <div class="feature rv"><i class="ph ph-sun-horizon" aria-hidden="true"></i><h3>A practice for today</h3><p>Each chapter ends with something small to do, in minutes, not hours.</p></div>
+      <div class="feature rv" style="--d:.06s"><i class="ph ph-pencil-simple-line" aria-hidden="true"></i><h3>Room to write</h3><p>Prompts, reflection questions and lined pages, so the book becomes yours.</p></div>
+      <div class="feature rv" style="--d:.12s"><i class="ph ph-seal-check" aria-hidden="true"></i><h3>Sources you can check</h3><p>Scripture quoted exactly. Research named by author and year, never "studies show".</p></div>
+      <div class="feature rv" style="--d:.06s"><i class="ph ph-chart-line-up" aria-hidden="true"></i><h3>Trackers that show patterns</h3><p>Daily logs and check-ins, so you see the trend instead of one hard day.</p></div>
+      <div class="feature rv" style="--d:.12s"><i class="ph ph-plant" aria-hidden="true"></i><h3>Written for one season</h3><p>Each author stays with a single season, so nothing feels generic.</p></div>
+      <div class="feature feature-cta rv" style="--d:.18s">
+        <h3>Find your book</h3>
+        <p>Start with the season you're in today. We'll take it from there.</p>
+        <a class="btn btn-dark" href="#seasons">Find your book</a>
+      </div>
     </div>
   </div>
 </section>
