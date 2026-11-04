@@ -71,7 +71,7 @@ def nav():
                     f'<span><b>{e(d["name"])}</b>{e(d["season"])}</span></a></li>' for a, d in AUTHORS.items())
     return f'''<header class="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="/" aria-label="Bloom Editorial, home"><img src="/img/brand/bloom-mark.png" width="256" height="261" alt=""><img class="logo-word" src="/img/brand/bloom-wordmark.png" width="600" height="213" alt="Bloom Editorial"></a>
+    <a class="logo" href="/" aria-label="Bloom Editorial, home"><img class="logo-h" src="/img/brand/bloom-logo-horizontal.png" width="900" height="131" alt="Bloom Editorial"></a>
     <nav aria-label="Main" class="main-nav" id="main-nav">
       <ul class="nav-list">
         <li><a href="/journal/">Journal</a></li>
@@ -93,7 +93,7 @@ def foot():
     links = "".join(f'<li><a href="/authors/{a}.html">{e(d["name"])}</a></li>' for a, d in AUTHORS.items())
     return f'''<footer class="foot">
   <div class="wrap foot-in">
-    <a class="logo" href="/" aria-label="Bloom Editorial, home"><img src="/img/brand/bloom-mark.png" width="256" height="261" alt=""><img class="logo-word" src="/img/brand/bloom-wordmark.png" width="600" height="213" alt="Bloom Editorial"></a>
+    <a class="logo" href="/" aria-label="Bloom Editorial, home"><img class="logo-h" src="/img/brand/bloom-logo-horizontal.png" width="900" height="131" alt="Bloom Editorial"></a>
     <ul aria-label="Explore"><li><a href="/journal/">Journal</a></li>{links}</ul>
     <p class="legal">&copy; <span data-year>2026</span> Bloom Editorial. Our books support, but never replace, care from a doctor or licensed therapist.</p>
   </div>

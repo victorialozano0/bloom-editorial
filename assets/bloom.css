@@ -481,9 +481,8 @@ body.inner main { padding-top: 68px; }
 .other-big > span:last-child { padding: 6px 10px 0; }
 @media (max-width: 860px) { .author-hero, .author-books { grid-template-columns: 1fr; } .others, .others-big { grid-template-columns: 1fr; } .author-panel { min-height: 240px; } .author-panel img { height: 170px; } }
 
-/* Brand logo: B monogram + serif wordmark */
-.logo { display: inline-flex; align-items: center; gap: 8px; }
-.logo img { width: auto; height: 38px; }
-.logo .logo-word { height: 36px; }
-.foot .logo img { height: 40px; } .foot .logo .logo-word { height: 36px; }
-@media (max-width: 520px) { .logo img { height: 30px; } .logo .logo-word { height: 26px; } }
+/* Brand logo: horizontal lockup (B monogram | bloom | EDITORIAL) */
+.logo { display: inline-flex; align-items: center; }
+.logo .logo-h { width: auto; height: 30px; }
+.foot .logo .logo-h { height: 34px; }
+@media (max-width: 520px) { .logo .logo-h { height: 22px; } }
