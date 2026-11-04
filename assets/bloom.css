@@ -5,6 +5,10 @@
    Shapes: cards 24px, pages 10px, every button a full pill. */
 
 :root {
+  /* Vertical rhythm: banners and sections never exaggerate height */
+  --sec-y: clamp(56px, 7vw, 96px);
+  --banner-y: clamp(24px, 3vw, 40px);
+  --banner-x: clamp(24px, 4vw, 56px);
   --bg: #faf8f4;
   --card: #ffffff;
   --ink: #1f2440;
@@ -108,7 +112,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* Sections */
-.sec { position: relative; padding: clamp(72px, 9vw, 120px) 0; }
+.sec { position: relative; padding: var(--sec-y) 0; }
 .sec-tight { padding: clamp(24px, 4vw, 48px) 0; }
 .sec-soft { background: linear-gradient(var(--bg), #f6f1e9 30%, #f6f1e9 70%, var(--bg)); overflow: hidden; }
 .h2 { font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.05; max-width: 18ch; }
@@ -144,7 +148,7 @@ button { font: inherit; color: inherit; }
 @media (max-width: 560px) { .seasons { grid-template-columns: 1fr; } .season-panel { min-height: 0; } }
 
 /* Practice */
-.practice { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px, 5vw, 64px); align-items: center; padding: clamp(28px, 4vw, 56px); border-radius: 28px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 40px 80px -60px rgb(31 36 64 / .35); }
+.practice { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px, 5vw, 64px); align-items: center; padding: var(--banner-y) var(--banner-x); border-radius: 28px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 40px 80px -60px rgb(31 36 64 / .35); }
 .practice h2 { margin: 10px 0 12px; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.05; }
 .steps { margin: 24px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; }
 .steps li { counter-increment: s; position: relative; padding-left: 42px; }
@@ -158,7 +162,7 @@ button { font: inherit; color: inherit; }
 .breath-count { position: relative; margin-top: 4px; font-size: .9rem; color: var(--muted); min-height: 1.4em; }
 
 /* Scale */
-.scale-card { display: grid; grid-template-columns: 1fr auto; gap: 24px 48px; align-items: center; padding: clamp(28px, 4vw, 48px); border-radius: 28px; background: var(--mint-soft); }
+.scale-card { display: grid; grid-template-columns: 1fr auto; gap: 24px 48px; align-items: center; padding: var(--banner-y) var(--banner-x); border-radius: 28px; background: var(--mint-soft); }
 .scale-card h2 { margin: 10px 0 8px; font-size: clamp(1.7rem, 2.6vw, 2.2rem); line-height: 1.1; }
 .scale { display: flex; gap: 10px; }
 .scale button { width: 54px; height: 54px; border-radius: 50%; border: 1.5px solid rgb(31 36 64 / .15); background: #fff; font: 700 1.15rem/1 var(--display); cursor: pointer; transition: transform .4s var(--spring), background .3s, color .3s, border-color .3s; }
@@ -280,7 +284,7 @@ button { font: inherit; color: inherit; }
 
 /* CTA */
 .cta {
-  position: relative; overflow: hidden; text-align: center; padding: clamp(56px, 7vw, 96px) 24px; border-radius: 28px; color: var(--ink);
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: clamp(18px, 3vw, 36px); text-align: left; padding: var(--banner-y) var(--banner-x); border-radius: 28px; color: var(--ink);
   background:
     radial-gradient(45% 55% at 88% 85%, #f6d8f0 0%, rgb(246 216 240 / 0) 70%),
     radial-gradient(55% 60% at 18% 75%, #9f7cf0 0%, rgb(159 124 240 / 0) 70%),
@@ -290,9 +294,12 @@ button { font: inherit; color: inherit; }
   background-size: 140% 140%;
   animation: mesh 16s ease-in-out infinite alternate;
 }
-.cta-leaf { width: 84px; height: 84px; object-fit: contain; padding: 12px; margin: 0 auto 20px; border-radius: 50%; background: #fff; box-shadow: 0 16px 30px -16px rgb(90 60 170 / .45); }
-.cta h2 { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.04; max-width: 16ch; margin: 0 auto; }
-.cta p { margin: 14px auto 28px; color: #2f2a4a; }
+.cta-leaf { flex: none; width: 72px; height: 72px; object-fit: contain; padding: 10px; margin: 0; border-radius: 50%; background: #fff; box-shadow: 0 16px 30px -16px rgb(90 60 170 / .45); }
+.cta-text { flex: 1; }
+.cta h2 { font-size: clamp(1.6rem, 2.8vw, 2.3rem); line-height: 1.08; margin: 0; }
+.cta .btn { flex: none; }
+@media (max-width: 760px) { .cta { flex-direction: column; text-align: center; } }
+.cta p { margin: 6px 0 0; color: #2f2a4a; }
 @media (prefers-reduced-motion: reduce) { .cta { animation: none; } }
 
 /* Footer */
