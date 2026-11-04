@@ -12,6 +12,7 @@
     rv.forEach(function (el) { el.classList.add('in'); });
   }
 
+  // finder tabs (kept for pages that still use them)
   var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
   function select(tab, focus) {
     tabs.forEach(function (t) {
