@@ -483,6 +483,6 @@ body.inner main { padding-top: 68px; }
 
 /* Brand logo: horizontal lockup (B monogram | bloom | EDITORIAL) */
 .logo { display: inline-flex; align-items: center; }
-.logo .logo-h { width: auto; height: 30px; }
-.foot .logo .logo-h { height: 34px; }
-@media (max-width: 520px) { .logo .logo-h { height: 22px; } }
+.logo .logo-h { width: auto; height: 88px; margin: -26px 0 -26px -5px; }
+.foot .logo .logo-h { height: 100px; margin: -30px 0 -30px -6px; }
+@media (max-width: 520px) { .logo .logo-h { height: 66px; margin: -20px 0 -20px -4px; } }
