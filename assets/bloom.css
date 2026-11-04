@@ -187,6 +187,15 @@ button { font: inherit; color: inherit; }
 .prompts li { display: grid; gap: 4px; }
 .prompts span { font: 700 .72rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--sage); }
 
+/* Statement: condensed caps with a hidden message in lilac */
+.statement { border-radius: 28px; background: #f3eafb; padding: clamp(56px, 8vw, 110px) 24px; text-align: center; box-shadow: 0 30px 70px -50px rgb(120 70 180 / .5); }
+.big-type { font: 400 clamp(3.2rem, 9vw, 7.5rem)/.95 "Anton", Impact, sans-serif; letter-spacing: .015em; text-transform: uppercase; color: #1c0b33; }
+.big-type b { font-weight: 400; color: #c77dff; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .statement.rv b { display: inline-block; transform: translateY(14px); opacity: 0; transition: transform 1s .3s var(--spring), opacity 1s .3s var(--ease); }
+  .js .statement.rv.in b { transform: none; opacity: 1; }
+}
+
 /* Features grid: white cards with an icon, one vivid gradient card */
 .features { margin-top: clamp(32px, 4vw, 52px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .feature { padding: 30px 30px 34px; border-radius: 26px; background: #fff; box-shadow: 0 0 0 1px rgb(31 36 64 / .05), 0 20px 40px -32px rgb(31 36 64 / .3); transition: transform .6s var(--spring), box-shadow .6s var(--spring); }
