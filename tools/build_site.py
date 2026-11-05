@@ -112,7 +112,10 @@ def page(title, desc, canonical, body):
 <link rel="icon" type="image/png" sizes="32x32" href="/img/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="/img/brand/favicon-180.png">
 <link rel="canonical" href="{SITE}{canonical}">
+<meta name="p:domain_verify" content="83dda4692c602d16284c48a86e32cccb"/>
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="Bloom Editorial">
+<meta property="og:url" content="{SITE}{canonical}">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:image" content="{SITE}/img/og-bloom-launch.jpg">
