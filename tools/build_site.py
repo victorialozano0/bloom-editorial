@@ -166,6 +166,96 @@ def book_block(b):
   <div><p class="eyebrow">The book</p><h3>{e(b["title"])}</h3><p class="muted">{e(b["dek"])}</p>{buy}</div></div>'''
 
 
+# "Peek inside" (link in bio): real lines and full exercises from the published books. No interior pages.
+PEEK = [
+    {"id": "calm", "chip": "Calm body", "author": "maya-chen", "book": 0,
+     "feeling": "Your mind knows you're okay. Your body hasn't heard.",
+     "quotes": ["Your nervous system isn't broken. It's been protecting you with the tools it had. The work now is giving it better ones.",
+                "Vagal resilience doesn't mean you stop getting activated. It means you stop staying there."],
+     "ex_title": "The Physiological Sigh", "ex_time": "Under a minute",
+     "ex_intro": "Something your body already knows how to do. Find a seated or standing position.",
+     "safety": "If you're prone to lightheadedness or hyperventilation, go slowly with the double inhale and reduce the exhale duration on your first attempt. If you feel dizzy, return to normal breathing immediately.",
+     "steps": ["Inhale fully through your nose. (4 counts)",
+               "Without exhaling, take a second, shorter sniff through your nose on top of the first inhale, as if you're topping off a nearly full glass. You'll feel your chest and belly expand further.",
+               "Now exhale slowly and completely through your mouth, lips slightly parted, for 6 to 8 counts. Let it be longer than feels necessary. Let your shoulders drop on the way out.",
+               "Pause naturally at the bottom of the exhale, 1 to 2 seconds.",
+               "Return to normal breathing. Notice the quality of your next few breaths."],
+     "outro": "Feeling nothing is also normal. Do 2 or 3 cycles and notice cumulatively."},
+    {"id": "faith", "chip": "Faith that feels far", "author": "hannah-grace", "book": 0,
+     "feeling": "You keep praying, and you can't feel a thing.",
+     "quotes": ["Your wound doesn't have to be the worst wound in the room to deserve a name.",
+                "The middle is not evidence that you're failing. It's evidence that you started."],
+     "ex_title": "Naming the Wound for the Healer", "ex_time": "A few quiet minutes and a pen",
+     "ex_intro": "Name what you're actually bringing. Not the general category (\"my health,\" \"my grief\") but the specific, particular wound you are carrying right now.",
+     "safety": "",
+     "steps": ["Write a single, specific sentence that names what you most need healing from right now.",
+               "Not \"my anxiety\": \"the anxiety that wakes me up at 3 a.m. convinced my marriage is ending.\"",
+               "Not \"my grief\": \"the grief over my mother's death that I haven't been able to talk about for two years because everyone expects me to be over it.\""],
+     "outro": "The naming is not for His information. He already knows. It's for yours. When we name the wound honestly before God, we stop carrying it in the dark."},
+    {"id": "change", "chip": "Perimenopause", "author": "claire-harmon", "book": 0,
+     "feeling": "It's 3 a.m. again, and you don't recognize yourself.",
+     "quotes": ["You are not your thoughts. You are the person noticing them. That distance is everything.",
+                "Your body is not your enemy. It is responding to a real, massive hormonal shift with the tools it has. You're simply giving it better ones."],
+     "ex_title": "\"I'm Having the Thought That...\"", "ex_time": "3 to 5 minutes",
+     "ex_intro": "This exercise creates distance between you and an anxious thought, not by changing the thought, but by changing your relationship to it.",
+     "safety": "If you're currently in acute distress or crisis, please reach out to a mental health professional. This technique works best for the everyday anxiety spiral, not a mental health emergency.",
+     "steps": ["Identify the anxious thought that is most active right now. Don't reach for the most logical one. Write the one that actually keeps arriving, exactly as it sounds in your head.",
+               "Now rewrite that thought using the stem: \"I'm having the thought that...\"",
+               "Read your rewritten sentence aloud or in your head. Notice how it feels different from the original. You don't need to believe it is different. Just notice if there's any shift, even a small one.",
+               "Add one more layer if you want to go further: \"I notice that I'm having the thought that...\"",
+               "Sit with the defused version for 60 seconds. Breathe normally. You don't need to do anything with the thought. Just let it be there, labeled, at arm's length."],
+     "outro": ""},
+]
+
+
+def peek_section(p):
+    d = AUTHORS[p["author"]]; b = d["books"][p["book"]]
+    quotes = "".join(f'<blockquote class="peek-q">{e(q)}</blockquote>' for q in p["quotes"])
+    steps = "".join(f"<li>{e(x)}</li>" for x in p["steps"])
+    safety = f'<p class="peek-safety"><b>A safety note.</b> {e(p["safety"])}</p>' if p["safety"] else ""
+    outro = f'<p class="peek-outro">{e(p["outro"])}</p>' if p["outro"] else ""
+    links = "".join(f'<a class="btn btn-sm{"" if i == 0 else " btn-soft"}" href="https://www.amazon.com/dp/{asin}" rel="noopener" target="_blank">{fmt}<span class="sr"> on Amazon (opens in a new tab)</span></a>'
+                    for i, (fmt, asin) in enumerate(b["links"]))
+    return f"""<section class="peek-sec" id="{p["id"]}" aria-labelledby="{p["id"]}-h">
+  <div class="wrap peek-grid">
+    <div class="peek-words {d["panel"]}">
+      <p class="eyebrow peek-eyebrow">{e(d["season"])}</p>
+      <h2 id="{p["id"]}-h">{e(p["feeling"])}</h2>
+      {quotes}
+      <p class="peek-from">From <i>{e(b["title"])}</i>, by <a href="/authors/{p["author"]}.html">{e(d["name"])}</a></p>
+    </div>
+    <div class="peek-ex">
+      <p class="eyebrow">Try it now &middot; {e(p["ex_time"])}</p>
+      <h3>{e(p["ex_title"])}</h3>
+      <p>{e(p["ex_intro"])}</p>
+      {safety}
+      <ol>{steps}</ol>
+      {outro}
+      <div class="peek-book"><img src="/img/{b["cover"]}-480.webp" width="480" height="{b["ch"]}" alt="Cover of {e(b["title"])}" loading="lazy">
+        <div><p class="peek-book-t">There's more where this came from.</p><p class="muted">{e(b["dek"])}</p><p class="peek-buy">{links}</p></div></div>
+    </div>
+  </div>
+</section>"""
+
+
+def build_peek():
+    chips = "".join(f'<a class="jpill" href="#{p["id"]}">{e(p["chip"])}</a>' for p in PEEK) + '<a class="jpill" href="#mom">Missing your mom</a>'
+    body = f"""<section class="page-head"><div class="wrap">
+  <p class="eyebrow">Peek inside</p>
+  <h1>A true sentence and a small practice, <em>for today.</em></h1>
+  <p class="lede">Real words and real exercises from our books. Find the season you're in and try one right now. You don't have to buy anything to begin.</p>
+  <nav class="jpills" aria-label="Choose your season">{chips}</nav>
+</div></section>
+{"".join(peek_section(p) for p in PEEK)}
+<section class="peek-sec" id="mom" aria-labelledby="mom-h"><div class="wrap"><div class="peek-mom p-sand">
+  <p class="eyebrow peek-eyebrow">{e(AUTHORS["clara-bennett"]["season"])}</p>
+  <h2 id="mom-h">You reach for the phone to call her, and then you remember.</h2>
+  <p>Clara's journals are still being written. Until then, she wrote this for you.</p>
+  <a class="btn btn-sm" href="/journal/reaching-for-the-phone.html">Read Clara's note <span aria-hidden="true">&rarr;</span></a>
+</div></div></section>"""
+    (ROOT / "peek-inside.html").write_text(page("Peek inside | Bloom Editorial", "Real words and real exercises from Bloom Editorial's books for anxiety, a faith that feels far, perimenopause and missing your mom. Try one today.", "/peek-inside.html", body), encoding="utf-8")
+
+
 def build():
     arts = []
     for f in sorted((ROOT / "content" / "journal").glob("*.json")):
@@ -253,6 +343,7 @@ def build():
     home = re.sub(r"<!-- NAV:START -->.*?<!-- NAV:END -->", f"<!-- NAV:START -->\n{nav()}\n<!-- NAV:END -->", home, flags=re.S)
     home = re.sub(r"<!-- JOURNAL:START -->.*?<!-- JOURNAL:END -->", f"<!-- JOURNAL:START -->\n{teaser}\n<!-- JOURNAL:END -->", home, flags=re.S)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
+    build_peek()
     print(f"built {len(mixed)} articles, {len(AUTHORS)} author pages, journal index, home teaser")
 
 

@@ -506,3 +506,28 @@ img.avatar { border-radius: 50%; object-fit: cover; }
 .nav ul.nav-list > li > a, .dd-btn { transition: color .25s; }
 .nav ul.nav-list > li > a:hover, .nav ul.nav-list > li > a:focus-visible, .dd-btn:hover, .dd.open .dd-btn, .dd:hover .dd-btn { color: var(--rose); }
 .nav .dd-menu a:hover b { color: var(--rose); }
+
+/* Peek inside (link in bio) */
+a.jpill { display: inline-block; text-decoration: none; color: var(--ink); }
+.peek-sec { padding: clamp(16px, 2.5vw, 28px) 0; scroll-margin-top: 90px; }
+.peek-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(16px, 2.5vw, 28px); align-items: stretch; }
+.peek-words, .peek-mom { border-radius: 28px; padding: clamp(26px, 4vw, 48px); }
+.peek-eyebrow { color: var(--ink); opacity: .72; }
+.peek-words h2, .peek-mom h2 { font-family: "Bricolage Grotesque", var(--body); font-weight: 600; font-size: clamp(1.6rem, 3vw, 2.25rem); line-height: 1.14; margin: 10px 0 26px; letter-spacing: -.01em; }
+.peek-q { margin: 0 0 18px; padding-left: 16px; border-left: 3px solid rgb(31 36 64 / .35); font-size: 1.12rem; line-height: 1.45; }
+.peek-from { margin: 24px 0 0; font-size: .92rem; }
+.peek-from a { color: inherit; }
+.peek-ex { background: #fff; box-shadow: 0 0 0 1px var(--line); border-radius: 28px; padding: clamp(26px, 4vw, 44px); }
+.peek-ex h3 { font-family: "Bricolage Grotesque", var(--body); font-weight: 600; font-size: clamp(1.35rem, 2.4vw, 1.7rem); line-height: 1.2; margin: 8px 0 12px; }
+.peek-ex ol { margin: 18px 0; padding-left: 1.3em; }
+.peek-ex li { margin-bottom: 10px; }
+.peek-safety { font-size: .92rem; background: #f6f1e9; border-radius: 14px; padding: 12px 16px; }
+.peek-outro { font-style: italic; }
+.peek-book { display: flex; gap: 18px; align-items: center; margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+.peek-book img { width: 84px; height: auto; border-radius: 4px; box-shadow: 0 10px 22px -12px rgb(31 36 64 / .6); flex: none; }
+.peek-book-t { font-weight: 600; margin: 0 0 2px; }
+.peek-book .muted { margin: 0 0 10px; font-size: .92rem; }
+.peek-buy { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.peek-mom { max-width: 760px; margin: 0 auto clamp(40px, 6vw, 72px); }
+@media (min-width: 821px) { .peek-words { align-self: start; position: sticky; top: 96px; } }
+@media (max-width: 820px) { .peek-grid { grid-template-columns: 1fr; } }
