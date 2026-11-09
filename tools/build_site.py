@@ -6,6 +6,9 @@ and refreshes the shared nav + "From the journal" block in index.html (between m
 
 Article dates in the JSON-LD and sitemap come from the git history of content/journal, so an article shows
 them only once it is committed: commit new or edited articles first, then build and commit the output.
+
+Optional article fields seo_title and seo_description override the <title>, meta description, Open Graph and
+JSON-LD text; the visible H1 (title) and subtitle (dek) never change with them.
 """
 import html
 import json
@@ -175,8 +178,8 @@ def article_jsonld(a, d, dates):
     data = {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": a["title"],
-        "description": a["dek"],
+        "headline": a.get("seo_title") or a["title"],
+        "description": a.get("seo_description") or a["dek"],
         "author": {"@type": "Person", "name": d["name"], "url": f'{SITE}/authors/{a["author"]}.html'},
         "publisher": {"@type": "Organization", "name": "Bloom Editorial", "url": f"{SITE}/"},
         "mainEntityOfPage": {"@type": "WebPage", "@id": url},
@@ -360,7 +363,7 @@ def build():
   </aside>
 </article>
 <section class="sec"><div class="wrap"><h2 class="h2">Keep reading</h2><div class="jgrid">{"".join(card(x) for x in more)}</div></div></section>'''
-        (ROOT / "journal" / f'{a["slug"]}.html').write_text(page(f'{a["title"]} | Bloom Editorial Journal', a["dek"], f'/journal/{a["slug"]}.html', body, article_jsonld(a, d, dates)), encoding="utf-8")
+        (ROOT / "journal" / f'{a["slug"]}.html').write_text(page(f'{a.get("seo_title") or a["title"]} | Bloom Editorial Journal', a.get("seo_description") or a["dek"], f'/journal/{a["slug"]}.html', body, article_jsonld(a, d, dates)), encoding="utf-8")
 
     # journal index
     pills = '<button type="button" class="jpill" aria-pressed="true" data-filter="all">All</button>' + "".join(
