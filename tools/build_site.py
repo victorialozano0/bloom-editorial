@@ -1,13 +1,18 @@
 """Build the Bloom Editorial journal, article pages and author pages from content/journal/*.json.
 
 Usage (from the repo root):  python tools/build_site.py
-Writes: journal/index.html, journal/<slug>.html, authors/<id>.html, authors.html,
+Writes: journal/index.html, journal/<slug>.html, authors/<id>.html, authors.html, sitemap.xml, robots.txt,
 and refreshes the shared nav + "From the journal" block in index.html (between markers).
+
+Article dates in the JSON-LD and sitemap come from the git history of content/journal, so an article shows
+them only once it is committed: commit new or edited articles first, then build and commit the output.
 """
 import html
 import json
 import pathlib
 import re
+import subprocess
+from xml.sax.saxutils import escape as xml_escape
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FONTS = ("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700"
@@ -100,7 +105,7 @@ def foot():
 </footer>'''
 
 
-def page(title, desc, canonical, body):
+def page(title, desc, canonical, body, jsonld=""):
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -118,7 +123,7 @@ def page(title, desc, canonical, body):
 <meta property="og:url" content="{SITE}{canonical}">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
-<meta property="og:image" content="{SITE}/img/og-bloom-launch.jpg">
+<meta property="og:image" content="{SITE}/img/og-bloom-launch.jpg">{jsonld}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
@@ -137,6 +142,66 @@ def page(title, desc, canonical, body):
 </body>
 </html>
 '''
+
+
+def git(*args):
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", check=True).stdout
+
+
+def article_dates():
+    """slug -> (commit that first added the article, last commit that changed its JSON). Uncommitted articles are absent."""
+    dates = {}
+    for f in sorted((ROOT / "content" / "journal").glob("*.json")):
+        rel = f.relative_to(ROOT).as_posix()
+        prev = {}
+        try:
+            for line in git("log", "--reverse", "--format=%H %cI", "--", rel).splitlines():
+                sha, when = line.split()
+                now = {a["slug"]: a for a in json.loads(git("show", f"{sha}:{rel}"))}
+                for slug, a in now.items():
+                    if slug not in dates:
+                        dates[slug] = (when, when)
+                    elif a != prev.get(slug):
+                        dates[slug] = (dates[slug][0], when)
+                prev = now
+        except (OSError, subprocess.CalledProcessError) as err:
+            print(f"warning: no git dates for {rel}: {err}")
+    return dates
+
+
+def article_jsonld(a, d, dates):
+    """Article schema. Authors are pen names: name and author page only, no credentials."""
+    url = f'{SITE}/journal/{a["slug"]}.html'
+    data = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": a["title"],
+        "description": a["dek"],
+        "author": {"@type": "Person", "name": d["name"], "url": f'{SITE}/authors/{a["author"]}.html'},
+        "publisher": {"@type": "Organization", "name": "Bloom Editorial", "url": f"{SITE}/"},
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+    }
+    if a["slug"] in dates:
+        data["datePublished"], data["dateModified"] = dates[a["slug"]]
+    # Escaping "<" keeps any "</script>" in the text from closing the tag
+    return '\n<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False).replace("<", "\\u003c") + "</script>"
+
+
+def build_seo_files(arts, dates):
+    """sitemap.xml (real, canonical pages only; catalog.html is a redirect) and robots.txt."""
+    paths = ["/", "/journal/", *(f'/journal/{a["slug"]}.html' for a in sorted(arts, key=lambda x: x["slug"])),
+             "/authors.html", *(f"/authors/{k}.html" for k in ORDER), "/peek-inside.html"]
+    entries = []
+    for path in paths:
+        rel = path.strip("/")
+        target = ROOT / rel / "index.html" if path.endswith("/") else ROOT / rel
+        assert target.is_file(), path
+        slug = path.removeprefix("/journal/").removesuffix(".html")
+        lastmod = f"<lastmod>{dates[slug][1]}</lastmod>" if slug in dates else ""
+        entries.append(f"  <url><loc>{xml_escape(SITE + path)}</loc>{lastmod}</url>")
+    (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                                      + "\n".join(entries) + "\n</urlset>\n", encoding="utf-8")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8")
 
 
 def banner(text):
@@ -269,6 +334,7 @@ def build():
     for i in range(max(len(v) for v in by.values())):
         mixed += [by[k][i] for k in ORDER if i < len(by[k])]
 
+    dates = article_dates()
     (ROOT / "journal").mkdir(exist_ok=True)
     # article pages
     for a in mixed:
@@ -294,7 +360,7 @@ def build():
   </aside>
 </article>
 <section class="sec"><div class="wrap"><h2 class="h2">Keep reading</h2><div class="jgrid">{"".join(card(x) for x in more)}</div></div></section>'''
-        (ROOT / "journal" / f'{a["slug"]}.html').write_text(page(f'{a["title"]} | Bloom Editorial Journal', a["dek"], f'/journal/{a["slug"]}.html', body), encoding="utf-8")
+        (ROOT / "journal" / f'{a["slug"]}.html').write_text(page(f'{a["title"]} | Bloom Editorial Journal', a["dek"], f'/journal/{a["slug"]}.html', body, article_jsonld(a, d, dates)), encoding="utf-8")
 
     # journal index
     pills = '<button type="button" class="jpill" aria-pressed="true" data-filter="all">All</button>' + "".join(
@@ -344,6 +410,7 @@ def build():
     home = re.sub(r"<!-- JOURNAL:START -->.*?<!-- JOURNAL:END -->", f"<!-- JOURNAL:START -->\n{teaser}\n<!-- JOURNAL:END -->", home, flags=re.S)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
     build_peek()
+    build_seo_files(arts, dates)
     print(f"built {len(mixed)} articles, {len(AUTHORS)} author pages, journal index, home teaser")
 
 
