@@ -156,8 +156,14 @@ def thanks_page(slug, r):
   <h1>Your pages are <em>on their way.</em></h1>
   <p class="lede">Thank you for confirming. The email with your printable pages from <i>{e(r["book"])}</i> should arrive in a minute or two. If you'd rather not wait, here they are.</p>
   {f'<p><a class="btn" href="{link}">Download the printable pages (PDF)</a></p>' if link else ''}
+  <aside class="review-card" aria-labelledby="review-card-h">
+    <p class="eyebrow">One small favor</p>
+    <h2 id="review-card-h">Has the book helped you?</h2>
+    <p>An honest rating, or one sentence about what you used most, helps another woman find <i>{e(r["book"])}</i> when she needs it.</p>
+    <p><a class="btn" href="https://www.amazon.com/review/create-review?asin={r["asin"]}" rel="noopener" target="_blank">Rate the book on Amazon<span class="sr"> (opens in a new tab)</span></a></p>
+    <p class="review-card-note">It's never required. Your pages are yours either way.</p>
+  </aside>
   <p class="muted small">Can't find the email? Check your spam or promotions folder. It comes from Bloom Editorial, bloom@liboprint.com.</p>
-  <p class="muted small">If the book has already helped you, an honest rating or review on Amazon helps other women find it. It's never required, and nothing here depends on it. <a href="https://www.amazon.com/review/create-review?asin={r["asin"]}" rel="noopener" target="_blank">Rate the book on Amazon<span class="sr"> (opens in a new tab)</span></a></p>
   <p><a class="textlink" href="/authors/{r["author"]}.html">More from {e(a["short"])} &rarr;</a></p>
 </div></section>'''
     out = ROOT / "readers" / slug / "thanks"
