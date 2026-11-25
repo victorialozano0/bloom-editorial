@@ -255,7 +255,8 @@ def book_block(b):
     if b.get("readers") in live_readers():
         # free printable pages from this book (web only; the book never links to a sign-up form, KDP rule)
         buy += f'<p class="review-ask"><a href="/readers/{b["readers"]}/">Get six printable pages from this book &rarr;</a></p>'
-    return f'''<div class="side-book"><img src="/img/{b["cover"]}-480.webp" width="480" height="{b["ch"]}" alt="Cover of {e(b["title"])}" loading="lazy">
+    # id = book slug, so the QR short link /b/<book> can land on this block (author page #<cover slug>)
+    return f'''<div class="side-book" id="{b["cover"]}"><img src="/img/{b["cover"]}-480.webp" width="480" height="{b["ch"]}" alt="Cover of {e(b["title"])}" loading="lazy">
   <div><p class="eyebrow">The book</p><h3>{e(b["title"])}</h3><p class="muted">{e(b["dek"])}</p>{buy}</div></div>'''
 
 
