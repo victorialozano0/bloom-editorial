@@ -1,0 +1,9 @@
+# Netlify is no longer the host (GitHub Pages serves bloom.liboprint.com since 2026-11-23).
+# This site stays alive ONLY as a permanent forwarder: six published books print
+# bloomeditorial.netlify.app/authors/<author>, and older pins and links point here.
+# Never delete or rename the Netlify site "bloomeditorial". GitHub Pages ignores this file.
+[[redirects]]
+  from = "/*"
+  to = "https://bloom.liboprint.com/:splat"
+  status = 301
+  force = true

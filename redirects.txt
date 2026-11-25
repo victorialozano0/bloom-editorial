@@ -1,0 +1,13 @@
+/peek  /peek-inside.html?utm_source=instagram&utm_medium=social&utm_campaign=bio  302
+
+# Short links (GitHub Pages has no server redirects): python tools/build_redirects.py turns each line into <path>/index.html.
+# Format: <path> <destination> (a third column such as 302 is ignored).
+#
+# Stable book links printed as QR codes and links on each book's closing page (2026-11-23).
+# Change the destination here at any time and rebuild: the printed QR never changes.
+/b/healing-bible-study      /authors/hannah-grace.html?utm_source=book&utm_medium=qr&utm_campaign=healing-bible-study      302
+/b/prayer-journal           /authors/hannah-grace.html?utm_source=book&utm_medium=qr&utm_campaign=prayer-journal           302
+/b/scripture-journal        /authors/hannah-grace.html?utm_source=book&utm_medium=qr&utm_campaign=scripture-journal        302
+/b/vagus-nerve              /authors/maya-chen.html?utm_source=book&utm_medium=qr&utm_campaign=vagus-nerve                 302
+/b/perimenopause-anxiety    /authors/claire-harmon.html?utm_source=book&utm_medium=qr&utm_campaign=perimenopause-anxiety   302
+/b/brain-fog                /authors/claire-harmon.html?utm_source=book&utm_medium=qr&utm_campaign=brain-fog               302

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /readers/*/files/
+
+Sitemap: https://bloom.liboprint.com/sitemap.xml
