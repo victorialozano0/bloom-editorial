@@ -30,13 +30,13 @@ AUTHORS = {
         "books": [{"title": "Healing Bible Study for Women", "cover": "healing-bible-study-for-women", "ch": 768,
                    "dek": "A 6-week, Scripture-based journey to restore your broken heart and renew your mind.",
                    "links": [("Paperback", "B0H17PD38W"), ("Kindle", "B0H18ZX2SX"), ("Hardcover", "B0HQDCMYZH")],
-                   "review": "B0H17PD38W"},
+                   "review": "B0H17PD38W", "readers": "healing-bible-study"},
                   {"title": "Daily Prayer Journal for Women", "cover": "prayer-journal-for-women", "ch": 720,
                    "dek": "52 undated weeks of guided prayer: a King James verse, a short reflection and a different creative practice every week.",
-                   "links": [("Paperback", "B0HSBT636V"), ("Hardcover", "B0HSM92J5S")], "review": "B0HSBT636V"},
+                   "links": [("Paperback", "B0HSBT636V"), ("Hardcover", "B0HSM92J5S")], "review": "B0HSBT636V", "readers": "prayer-journal"},
                   {"title": "Scripture Journal for Women", "cover": "scripture-writing-journal-for-women", "ch": 720,
                    "dek": "96 King James passages to copy slowly, with a reflection page for each and a creative practice in every part.",
-                   "links": [("Paperback", "B0HSFNZ2NM"), ("Hardcover", "B0HSKFFKWK")], "review": "B0HSFNZ2NM"}],
+                   "links": [("Paperback", "B0HSFNZ2NM"), ("Hardcover", "B0HSKFFKWK")], "review": "B0HSFNZ2NM", "readers": "scripture-journal"}],
         "planned": ["Anxiety and Faith",
                     "Psalms for the Brokenhearted", "A Bible Study for Women in Grief", "Proverbs for Women", "Walking Through Fire"],
     },
@@ -48,7 +48,7 @@ AUTHORS = {
         "books": [{"title": "Vagus Nerve Exercises for Anxiety", "cover": "vagus-nerve-exercises-for-anxiety", "ch": 768,
                    "dek": "A 10-minute daily reset with step-by-step practices you can actually do.",
                    "links": [("Paperback", "B0H19KD54V"), ("Kindle", "B0H19DC7YS"), ("Hardcover", "B0H19KSCRL")],
-                   "review": "B0H19KD54V"}],
+                   "review": "B0H19KD54V", "readers": "vagus-nerve"}],
         "planned": ["My Nervous System Tracker", "The Vagus Nerve Practice Journal", "Somatic Healing for Trauma",
                     "The Nervous System Reset", "Polyvagal Exercises for Beginners", "Somatic Healing for Women", "Heal Your Nervous System"],
     },
@@ -69,7 +69,7 @@ AUTHORS = {
         "bio": "Workbooks for the anxiety, brain fog, broken sleep and rage that can arrive with perimenopause. Plain language, practical tools, zero shame.",
         "books": [{"title": "Perimenopause Anxiety Workbook", "cover": "perimenopause-anxiety-workbook", "ch": 720,
                    "dek": "A 30-day guided workbook with trackers and 10-minute calm strategies.",
-                   "links": [("Paperback", "B0HQFBDRF9"), ("Kindle", "B0HQFZ15DW")], "review": "B0HQFBDRF9"},
+                   "links": [("Paperback", "B0HQFBDRF9"), ("Kindle", "B0HQFZ15DW")], "review": "B0HQFBDRF9", "readers": "perimenopause-anxiety"},
                   {"title": "The Perimenopause Brain Fog Workbook", "cover": "perimenopause-brain-fog-book", "ch": 768,
                    "dek": "Map your memory lapses, build paper backups for focus and prepare for your doctor's visit.",
                    "links": [("Paperback", "B0HSLXYB6S"), ("Kindle", "B0HSM98BB3")], "review": "B0HSLXYB6S", "readers": "brain-fog"}],
@@ -177,6 +177,14 @@ def article_dates():
                 prev = now
         except (OSError, subprocess.CalledProcessError) as err:
             print(f"warning: no git dates for {rel}: {err}")
+    # The history was squashed on 2026-11-25: dates before that live in content/journal-dates.json.
+    # Git only wins for an article changed (or added) in a later commit.
+    ledger_f = ROOT / "content" / "journal-dates.json"
+    if ledger_f.exists():
+        root_when = git("log", "--max-parents=0", "--format=%cI", "HEAD").split()[-1]
+        for slug, (pub, mod) in json.loads(ledger_f.read_text(encoding="utf-8")).items():
+            g = dates.get(slug)
+            dates[slug] = (pub, g[1] if g and g[1] > root_when else mod)
     return dates
 
 
@@ -198,10 +206,15 @@ def article_jsonld(a, d, dates):
     return '\n<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False).replace("<", "\\u003c") + "</script>"
 
 
+def live_readers():
+    """Reader pages whose Brevo form is in place (tools/forms/<slug>.html); the others are not linked or listed."""
+    return sorted(f.stem for f in (ROOT / "tools" / "forms").glob("*.html"))
+
+
 def build_seo_files(arts, dates):
     """sitemap.xml (real, canonical pages only; catalog.html is a redirect) and robots.txt."""
     paths = ["/", "/journal/", *(f'/journal/{a["slug"]}.html' for a in sorted(arts, key=lambda x: x["slug"])),
-             "/authors.html", *(f"/authors/{k}.html" for k in ORDER), "/peek-inside.html", "/readers/brain-fog/", "/privacy.html"]
+             "/authors.html", *(f"/authors/{k}.html" for k in ORDER), "/peek-inside.html", *(f"/readers/{s}/" for s in live_readers()), "/privacy.html"]
     entries = []
     for path in paths:
         rel = path.strip("/")
@@ -239,7 +252,7 @@ def book_block(b):
         # Readers arrive here from the "One small favor" page at the end of each book
         buy += (f'<p class="review-ask">Finished the book? <a href="https://www.amazon.com/review/create-review?asin={b["review"]}" '
                 f'rel="noopener" target="_blank">Leave an honest review on Amazon<span class="sr"> (opens in a new tab)</span></a></p>')
-    if b.get("readers"):
+    if b.get("readers") in live_readers():
         # free printable pages from this book (web only; the book never links to a sign-up form, KDP rule)
         buy += f'<p class="review-ask"><a href="/readers/{b["readers"]}/">Get six printable pages from this book &rarr;</a></p>'
     return f'''<div class="side-book"><img src="/img/{b["cover"]}-480.webp" width="480" height="{b["ch"]}" alt="Cover of {e(b["title"])}" loading="lazy">
@@ -459,6 +472,8 @@ def build():
     home = re.sub(r"<!-- JOURNAL:START -->.*?<!-- JOURNAL:END -->", f"<!-- JOURNAL:START -->\n{teaser}\n<!-- JOURNAL:END -->", home, flags=re.S)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
     build_peek()
+    import build_readers
+    build_readers.main()
     build_seo_files(arts, dates)
     # 404 (GitHub Pages serves /404.html for any missing path) and the short links of redirects.txt
     body404 = '''<section class="page-head"><div class="wrap"><p class="eyebrow">Page not found</p><h1>This page has <em>moved or gone.</em></h1>
@@ -468,8 +483,6 @@ def build():
     (ROOT / "404.html").write_text(html404.replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1), encoding="utf-8")
     import build_redirects
     build_redirects.main()
-    import build_readers
-    build_readers.main()
     print(f"built {len(mixed)} articles, {len(AUTHORS)} author pages, journal index, home teaser")
 
 

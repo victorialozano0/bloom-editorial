@@ -5,8 +5,8 @@
 KDP rules (2026-11-23): the book itself never links to a sign-up form and never promises a gift. These pages
 live on the website only and are reached from the author pages and the journal. The resource is always pages
 that are already inside the book (checked against the live interior), never new content.
-The form is Brevo's hosted form with double opt-in; until FORM_HTML is filled in, the page says sign-up is
-not open yet and is not listed in the sitemap.
+The form is Brevo's hosted form with double opt-in, kept in tools/forms/<slug>.html; until that file exists,
+the page says sign-up is not open yet, is noindex, and is neither linked nor listed in the sitemap.
 """
 import html
 import pathlib
@@ -23,13 +23,24 @@ CONTROLLER = "Libo and Bloom Editorial are trade names of Victoria Lozano"
 CONTACT = "bloom@liboprint.com"
 UPDATED = "November 23, 2026"
 
+HEALTH_NOTE = "They are not medical advice and don't replace care from your doctor."
+NUM = {4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight"}
+
+
+def form(slug):
+    """Brevo form block for this page (only the Begin/End Brevo Form markup), or "" while sign-up is not open."""
+    f = ROOT / "tools" / "forms" / f"{slug}.html"
+    return f.read_text(encoding="utf-8") if f.exists() else ""
+
+
+# Each sheet is one or two pages of the live interior, copied unchanged into the PDF by
+# "KDP - Amazon KDP/scripts/readers_printables.py" (same pages, same order). Wording taken from each page.
 READERS = {
     "brain-fog": {
-        "author": "claire-harmon",
+        "author": "claire-harmon", "kind": "workbook", "note": HEALTH_NOTE,
         "book": "The Perimenopause Brain Fog Workbook",
         "asin": "B0HSLXYB6S",
-        "sheets": [  # each one is a page of the live interior (candidate-2026-11-20d, checked 2026-11-23)
-            # wording taken from each page (p. 18, 31, 113, 116, 142, 143)
+        "sheets": [  # live interior candidate-2026-11-20d, checked 2026-11-23 (p. 18, 31, 113, 116, 142, 143)
             ("The Lapse Tally", "Fill in one circle each time a lapse happens; on Day 7, see which column filled up fastest."),
             ("Your Four-Week Fog Calendar", "Shade one circle each evening for a clear, foggy or heavy-fog day. Nothing resets."),
             ("When Did It Start?", "Mark the last twelve months for brain fog, cycle changes and hot flashes, before your appointment."),
@@ -37,7 +48,71 @@ READERS = {
             ("My Green / Yellow / Red Plan Sheet", "Your plan for any kind of day, to put where you'll see it on a Red day."),
             ("Counting Days, Not Streaks", "Color one light a day and count your Green days at the end of the month."),
         ],
-        "form_html": (ROOT / "tools" / "forms" / "brain-fog.html").read_text(encoding="utf-8"),  # Brevo form "Brain Fog printable pages" (double opt-in)
+    },
+    "perimenopause-anxiety": {
+        "author": "claire-harmon", "kind": "workbook", "note": HEALTH_NOTE,
+        "book": "Perimenopause Anxiety Workbook",
+        "asin": "B0HQFBDRF9",
+        "sheets": [  # interior candidate-2026-11-20 (p. 46-47, 51-52, 106, 170-171, 174-175, 221-222)
+            ("Your 7-Day Anxiety Intensity Log", "Seven days of same-day notes: intensity, time of day, your profile and the trigger or context."),
+            ("Two-Week Three-Point Tracker", "Rate sleep, mood and energy from 1 to 5 each day. The whole entry should take less than 90 seconds."),
+            ("6-Week Practice Tracker", "Mark each day you use your chosen tool. Six weeks of daily practice gives a tool a fair trial."),
+            ("The Evidence Courtroom", "Argue for one anxious belief, then against it, using only actual evidence, and end with a more balanced version."),
+            ("The Perimenopause Thought Record", "Trigger, automatic thought, emotion, evidence for and against, and a more balanced version of the thought."),
+            ("My Appointment Preparation Sheet", "Fill it in 24 to 48 hours before your visit: your three questions, the tests to ask about and your goal."),
+        ],
+    },
+    "vagus-nerve": {
+        "author": "maya-chen", "kind": "workbook", "note": HEALTH_NOTE,
+        "book": "Vagus Nerve Exercises for Anxiety",
+        "asin": "B0H19KD54V",
+        "sheets": [  # interior candidate-2026-11-20c (p. 25-26, 36, 47, 161-162, 166, 186)
+            ("The Nervous System Check-In", "A daily 60-second inventory: where you felt activation, where you felt ease, and which state you're in right now."),
+            ("My Nervous System This Week", "A lined page for what you noticed in your body this week."),
+            ("The Three States at a Glance", "Ventral vagal, sympathetic and dorsal vagal on one page, to recognize the state you're in."),
+            ("28-Day Tracking Log", "Record your daily anxiety rating from 0 to 5. Review it weekly, not daily."),
+            ("The Minimum Viable Dose", "For the hardest days: three physiological sighs in the morning and two minutes of humming before sleep."),
+            ("Orient, Regulate, Reanchor", "The three-step sequence for an anxiety spike, to memorize before anything else."),
+        ],
+    },
+    "healing-bible-study": {
+        "author": "hannah-grace", "kind": "Bible study", "note": "",
+        "book": "Healing Bible Study for Women",
+        "asin": "B0H17PD38W",
+        "sheets": [  # interior candidate-2026-11-20b (p. 28-29, 69, 103-104, 154-155, 184-185, 200)
+            ("Your Written Lament", "Write your own lament in four movements: Remember, Acknowledge, Hope, Choose."),
+            ("Building Your Healing Declaration", "The lie you are taking captive this week, the Scripture truth that answers it, and your declaration."),
+            ("The Seven-Day Healing Covenant Prayer", "Seven days, seven passages, a prayer prompt for each day. Set aside 15 to 20 minutes a day."),
+            ("The Four Chambers: A Personal Forgiveness Inventory", "One chamber at a time. You may not complete all four today, and that's expected."),
+            ("Mapping Your Section of the Wall", "Name three areas of your inner life where the wall feels most broken right now."),
+            ("Your Assigned Section This Week", "One section and one specific action for the coming week: the day, the time and what it will look like."),
+        ],
+    },
+    "prayer-journal": {
+        "author": "hannah-grace", "kind": "journal", "note": "",
+        "book": "Daily Prayer Journal for Women",
+        "asin": "B0HSBT636V",
+        "sheets": [  # interior candidate-2026-11-21 (p. 6, 9, 12, 13-14, 15, 64-65)
+            ("Four Simple Ways to Pray", "Praise, lay down, ask, thank; pray the verse; pray the Lord's Prayer line by line; or just say the name."),
+            ("People I'm Carrying in Prayer", "Names and needs to keep in front of you all year, with the date you started and a box for when God answers."),
+            ("Read, Notice, Pray, Live It", "The first week's practice: an old, slow way of reading Scripture, step by step."),
+            ("The Daily Pages", "Six days of the daily page: what I praise You for, what I'm laying down, what I'm asking, thank You for."),
+            ("Where Was God This Week?", "The seventh-day look back: the days you prayed, where you noticed God, prayers answered and still waiting."),
+            ("Looking Back", "The pages that close each part: the week that meant the most, a prayer God answered, a prayer for the weeks ahead."),
+        ],
+    },
+    "scripture-journal": {
+        "author": "hannah-grace", "kind": "journal", "note": "",
+        "book": "Scripture Journal for Women",
+        "asin": "B0HSFNZ2NM",
+        "sheets": [  # interior candidate-2026-11-20 (p. 8, 10, 11, 14, 16, 27); reflection pages carry Part 1's questions
+            ("My Scripture Writing Tracker", "Shade or check a square each time you finish a passage. The numbers match the passages in the book."),
+            ("Write It Out", "Copy the passage slowly, word for word (the book's first passage, Exodus 34:6)."),
+            ("Make It Personal", "In my own words, where I need this right now, going deeper, and a short prayer."),
+            ("Hide It in My Heart", "Write it again from memory. Peek if you need to. Memory grows by trying."),
+            ("Look Closer", "The word that stopped me, what it shows me about God, praying it back, and one way to live it today."),
+            ("Looking Back", "The passage you want to memorize, what changed in how you see God, and a prayer to close the part."),
+        ],
     },
 }
 
@@ -45,26 +120,28 @@ READERS = {
 def readers_page(slug, r):
     a = bs.AUTHORS[r["author"]]
     sheets = "".join(f'<li><b>{e(t)}</b><span>{e(d)}</span></li>' for t, d in r["sheets"])
-    if r["form_html"]:
-        form = f'''<div class="readers-form">{r["form_html"]}
+    n = NUM.get(len(r["sheets"]), str(len(r["sheets"])))
+    form_html = form(slug)
+    if form_html:
+        form_block = f'''<div class="readers-form">{form_html}
   <p class="muted small">We'll send a confirmation email first. You only join after you click it, and every email has a one-click unsubscribe. See our <a href="/privacy.html">privacy policy</a>.</p></div>'''
     else:
-        form = '<div class="readers-form"><p class="muted">Sign-up opens soon.</p></div>'
+        form_block = '<div class="readers-form"><p class="muted">Sign-up opens soon.</p></div>'
     body = f'''<section class="page-head"><div class="wrap">
-  <p class="eyebrow">From {e(a["name"])}'s workbook</p>
+  <p class="eyebrow">From {e(a["name"])}'s {e(r["kind"])}</p>
   <h1>Print fresh copies of the pages <em>you use most.</em></h1>
-  <p class="lede">Six pages from <i>{e(r["book"])}</i>, ready to print, for the sheets you fill in again and again. Leave your email and we'll send them to you, along with a note when {e(a["short"])} publishes a new book.</p>
+  <p class="lede">{n} pages from <i>{e(r["book"])}</i>, ready to print, for the sheets you fill in again and again. Leave your email and we'll send them to you, along with a note when {e(a["short"])} publishes a new book.</p>
 </div></section>
 <section class="sec sec-top0"><div class="wrap readers-grid">
   <div><h2 class="h2">What's in the printable</h2><ul class="readers-list">{sheets}</ul>
-  <p class="muted small">These are the same pages that are in the book, so you can keep using them after the book is full. They are not medical advice and don't replace care from your doctor.</p></div>
-  <div>{form}
+  <p class="muted small">These are the same pages that are in the book, so you can keep using them after the book is full. {e(r["note"])}</p></div>
+  <div>{form_block}
   <p class="muted small">Don't have the book yet? <a href="https://www.amazon.com/dp/{r["asin"]}">See it on Amazon</a>.</p></div>
 </div></section>'''
     out = ROOT / "readers" / slug
     out.mkdir(parents=True, exist_ok=True)
-    html_ = bs.page(f'Printable pages from {r["book"]} | Bloom Editorial', f'Six printable pages from {r["book"]} by {a["name"]}.', f"/readers/{slug}/", body)
-    if not r["form_html"]:
+    html_ = bs.page(f'Printable pages from {r["book"]} | Bloom Editorial', f'{n} printable pages from {r["book"]} by {a["name"]}.', f"/readers/{slug}/", body)
+    if not form_html:
         html_ = html_.replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
     (out / "index.html").write_text(html_, encoding="utf-8")
 
@@ -80,6 +157,7 @@ def thanks_page(slug, r):
   <p class="lede">Thank you for confirming. The email with your printable pages from <i>{e(r["book"])}</i> should arrive in a minute or two. If you'd rather not wait, here they are.</p>
   {f'<p><a class="btn" href="{link}">Download the printable pages (PDF)</a></p>' if link else ''}
   <p class="muted small">Can't find the email? Check your spam or promotions folder. It comes from Bloom Editorial, bloom@liboprint.com.</p>
+  <p class="muted small">If the book has already helped you, an honest rating or review on Amazon helps other women find it. It's never required, and nothing here depends on it. <a href="https://www.amazon.com/review/create-review?asin={r["asin"]}" rel="noopener" target="_blank">Rate the book on Amazon<span class="sr"> (opens in a new tab)</span></a></p>
   <p><a class="textlink" href="/authors/{r["author"]}.html">More from {e(a["short"])} &rarr;</a></p>
 </div></section>'''
     out = ROOT / "readers" / slug / "thanks"
