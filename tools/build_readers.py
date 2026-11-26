@@ -204,7 +204,7 @@ def privacy_page():
 # ── Gifts for EverySeasonPages (Etsy) customers ───────────────────────────────────────────────────
 # Etsy rules (2026-11-26): no buyer is added to a list from an order. The digital product only invites them here;
 # this page only gives a free gift and the newsletter (double opt-in). Nothing is sold off Etsy.
-ESP_SHOP = "https://www.etsy.com/shop/EverySeasonPages"
+ESP_SHOP = "https://everyseasonpages.etsy.com"  # enlace personal de Comparte y ahorra (cuenta para el reembolso)
 BONUS = {
     "hard-seasons": {
         "author": "hannah-grace",
