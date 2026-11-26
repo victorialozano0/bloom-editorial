@@ -200,10 +200,73 @@ def privacy_page():
     (ROOT / "privacy.html").write_text(bs.page("Privacy policy | Bloom Editorial", "How Bloom Editorial handles your data.", "/privacy.html", body), encoding="utf-8")
 
 
+
+# ── Gifts for EverySeasonPages (Etsy) customers ───────────────────────────────────────────────────
+# Etsy rules (2026-11-26): no buyer is added to a list from an order. The digital product only invites them here;
+# this page only gives a free gift and the newsletter (double opt-in). Nothing is sold off Etsy.
+ESP_SHOP = "https://www.etsy.com/shop/EverySeasonPages"
+BONUS = {
+    "hard-seasons": {
+        "author": "hannah-grace",
+        "product": "Scripture for Hard Seasons",
+        "title": "Season Tabs & Verse Cards",
+        "items": [
+            ("Season tabs", "Printable tabs for grief, anxiety, weariness, waiting and betrayal: cut, fold over the page edge and tape."),
+            ("12 verse cards", "Twelve KJV verses from the kit, each with a line of context, to cut out and keep close."),
+            ("A note from us", "How to print them and where to keep them."),
+        ],
+    },
+}
+
+
+def bonus_page(slug, r):
+    a = bs.AUTHORS[r["author"]]
+    items = "".join(f'<li><b>{e(t)}</b><span>{e(d)}</span></li>' for t, d in r["items"])
+    form_html = form(slug)
+    form_block = (f'''<div class="readers-form">{form_html}
+  <p class="muted small">We'll send a confirmation email first. You only join after you click it, and every email has a one-click unsubscribe. See our <a href="/privacy.html">privacy policy</a>.</p></div>'''
+                  if form_html else '<div class="readers-form"><p class="muted">Sign-up opens soon.</p></div>')
+    body = f'''<section class="page-head"><div class="wrap">
+  <p class="eyebrow">A free gift from EverySeasonPages</p>
+  <h1>{e(r["title"])}, <em>free for you.</em></h1>
+  <p class="lede">Thank you for choosing <i>{e(r["product"])}</i>. Leave your email and we'll send you a printable gift for your Bible, along with a note now and then when {e(a["short"])} has new pages.</p>
+</div></section>
+<section class="sec sec-top0"><div class="wrap readers-grid">
+  <div><h2 class="h2">What's in the gift</h2><ul class="readers-list">{items}</ul>
+  <p class="muted small">Scripture from the King James Version (public domain). For your personal use.</p></div>
+  <div>{form_block}</div>
+</div></section>'''
+    out = ROOT / "readers" / slug
+    out.mkdir(parents=True, exist_ok=True)
+    html_ = bs.page(f'{r["title"]}: a free gift | Bloom Editorial', f'A free printable gift for customers of {r["product"]}.', f"/readers/{slug}/", body)
+    (out / "index.html").write_text(html_.replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1), encoding="utf-8")
+
+
+def bonus_thanks(slug, r):
+    a = bs.AUTHORS[r["author"]]
+    files = sorted((ROOT / "readers" / slug / "files").glob("*.pdf"))
+    link = f'/readers/{slug}/files/{files[-1].name}' if files else ""
+    body = f'''<section class="page-head"><div class="wrap">
+  <p class="eyebrow">You're in</p>
+  <h1>Your gift is <em>ready.</em></h1>
+  <p class="lede">Thank you for being here. Your {e(r["title"])} are ready below, and a copy of the link is in your inbox too.</p>
+  {f'<p><a class="btn" href="{link}">Download your gift (PDF)</a></p>' if link else ''}
+  <p class="muted small">Can't find the email? Check your spam or promotions folder. It comes from Bloom Editorial, bloom@liboprint.com.</p>
+  <p><a class="textlink" href="/authors/{r["author"]}.html">More from {e(a["short"])} &rarr;</a> &nbsp; <a class="textlink" href="{ESP_SHOP}">EverySeasonPages on Etsy &rarr;</a></p>
+</div></section>'''
+    out = ROOT / "readers" / slug / "thanks"
+    out.mkdir(parents=True, exist_ok=True)
+    html_ = bs.page("Thank you | Bloom Editorial", "Your gift is ready.", f"/readers/{slug}/thanks/", body)
+    (out / "index.html").write_text(html_.replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1), encoding="utf-8")
+
+
 def main():
     for slug, r in READERS.items():
         readers_page(slug, r)
         thanks_page(slug, r)
+    for slug, r in BONUS.items():
+        bonus_page(slug, r)
+        bonus_thanks(slug, r)
     if CONTROLLER:
         privacy_page()
     print(f"reader pages: {', '.join(READERS)}; privacy: {'built' if CONTROLLER else 'waiting for the controller name'}")

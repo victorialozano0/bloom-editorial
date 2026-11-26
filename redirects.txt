@@ -13,3 +13,13 @@
 /b/perimenopause-anxiety    /authors/claire-harmon.html?utm_source=book&utm_medium=qr&utm_campaign=perimenopause-anxiety#perimenopause-anxiety-workbook   302
 /b/brain-fog                /authors/claire-harmon.html?utm_source=book&utm_medium=qr&utm_campaign=brain-fog#perimenopause-brain-fog-book               302
 /b/grief-journal           /authors/clara-bennett.html?utm_source=book&utm_medium=qr&utm_campaign=grief-journal          302
+
+# Short links printed in EverySeasonPages (Etsy) digital products (2026-11-25/26): utm_source=etsy, utm_medium=pdf.
+/b/heal    /authors/hannah-grace.html?utm_source=etsy&utm_medium=pdf&utm_campaign=healing-bible-study#healing-bible-study-for-women    302
+/b/pray    /authors/hannah-grace.html?utm_source=etsy&utm_medium=pdf&utm_campaign=prayer-journal#prayer-journal-for-women    302
+/b/verse   /authors/hannah-grace.html?utm_source=etsy&utm_medium=pdf&utm_campaign=scripture-journal#scripture-writing-journal-for-women    302
+/b/vagus   /authors/maya-chen.html?utm_source=etsy&utm_medium=pdf&utm_campaign=vagus-nerve#vagus-nerve-exercises-for-anxiety    302
+/b/fog     /authors/claire-harmon.html?utm_source=etsy&utm_medium=pdf&utm_campaign=brain-fog#perimenopause-brain-fog-book    302
+/b/peri    /authors/claire-harmon.html?utm_source=etsy&utm_medium=pdf&utm_campaign=perimenopause-anxiety#perimenopause-anxiety-workbook    302
+# Free gift for buyers of the Hard Seasons products (Etsy -> Bloom list, plan-marketing-y-publicacion.md section 8).
+/b/gift    /readers/hard-seasons/?utm_source=etsy&utm_medium=pdf&utm_campaign=hard-seasons-gift    302
